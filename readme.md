@@ -10,7 +10,7 @@
 2. Building Dictionary on four principles: 'Historical / Aesthetic / Semiotic / Sociological' as the backgound of the ICH.
 3. Deep Feature Extraction: Extract four ontology-based features from the textual and visual corpus of ICH objects.
 4. Projecting the extracted features into the dictionary space.
-5. Comput the cultural congnition. Employ AHP: Analytic Hierarchy Process to determine the relative importance of the four features for the cultural cognition hidden behind the core of intangible cultural heritage.
+5. Comput the cultural congnition on the projected space. Employ AHP: Analytic Hierarchy Process to determine the relative importance of the four features for the cultural cognition hidden behind the core of intangible cultural heritage.
 6. Make decision based on computed cultural cognition. Employ Machine Learning: Train a machine learning model to predict the cultural heritage value of the object based on the extracted features.
 7. Evaluation: Evaluate the performance of the model using various metrics such as accuracy, precision, recall, F1-score, and AUC-ROC.
 
