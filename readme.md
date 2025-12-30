@@ -1,7 +1,7 @@
 ## Inference for ICH
 
 - ICH means Intangible Cultural Heritage
-- This project aims to develop a machine learning approach to infer the cultural heritage value of a given object based on its textual and visual features.
+- This project aims to develop a machine learning approach to infer the cultural heritage value of a given object based on its textual and visual materials.
 - We will extract four ontology-based features from a given textual and visual corpus of ICH objects, and then use machine learning algorithms to train a model to predict the cultural heritage value of the object.
 
 ## Steps of the methodology
