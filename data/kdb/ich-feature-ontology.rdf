@@ -1,0 +1,510 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology/"
+     xml:base="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:YN-ICH-ontology="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#">
+    <owl:Ontology rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#beNarrated -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#beNarrated">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#extractedFrom -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#extractedFrom">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasEmbedding -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasEmbedding">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Embedding"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasFacts -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasFacts">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Fact"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasFeatures -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasFeatures">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasProjects -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasProjects">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ICH"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasWordSet -->
+
+    <owl:ObjectProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#hasWordSet">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+        <rdfs:range rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#wordList -->
+
+    <owl:DatatypeProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#wordList">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>逗号分隔的单词列表</rdfs:comment>
+        <rdfs:label>Word List</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#wordVector -->
+
+    <owl:DatatypeProperty rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#wordVector">
+        <rdfs:domain rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Embedding"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>逗号分隔的单词向量列表([0.2,0.5,...],[0.88,0.28,...],...),向量768维</rdfs:comment>
+        <rdfs:label>Word Vector List</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Aesthetic -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Aesthetic">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Calendar_System -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Calendar_System">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Cultural_Memory -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Cultural_Memory">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Ecological_Worldview -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Ecological_Worldview">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Embedding -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Embedding"/>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Evolution_Characteristics -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Evolution_Characteristics">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Fact -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Fact"/>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ICH -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ICH">
+        <rdfs:comment>ICH Projects Ontology of Yunnan Province, China.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Material_Technology -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Material_Technology">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Picture -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Picture">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Position -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Position">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Ritual_Function -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Ritual_Function">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Semiotic -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Semiotic">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Social_Structure -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Social_Structure">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Historical"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Socialogical -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Socialogical">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Feature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Text -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Text">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Vedio -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Vedio">
+        <rdfs:subClassOf rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Narration"/>
+    </owl:Class>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet -->
+
+    <owl:Class rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Sacred_Grove_Worship_Ritual -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Sacred_Grove_Worship_Ritual">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Project"/>
+        <YN-ICH-ontology:beNarrated rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_LongStreetBanquet"/>
+        <YN-ICH-ontology:beNarrated rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_Procession"/>
+        <YN-ICH-ontology:beNarrated rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual"/>
+        <YN-ICH-ontology:beNarrated rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_2"/>
+        <YN-ICH-ontology:beNarrated rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_3"/>
+        <YN-ICH-ontology:beNarrated rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_4"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#cm_Historical"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#cs_Historical"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ec_Historical"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ew_Historical"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#mt_Historical"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#rf_Historical"/>
+        <YN-ICH-ontology:hasFeatures rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ss_Historical"/>
+        <rdfs:comment>Scared Grove Worship Ritual</rdfs:comment>
+        <rdfs:comment>Scared Grove Worship Ritual (SGWR)</rdfs:comment>
+        <rdfs:label>SGWR</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#cm_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#cm_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Cultural_Memory"/>
+        <YN-ICH-ontology:hasWordSet rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ws_cm_Historical"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#cs_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#cs_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Calendar_System"/>
+        <YN-ICH-ontology:hasWordSet rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ws_cs_Historical"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ec_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ec_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Evolution_Characteristics"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ew_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ew_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Ecological_Worldview"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#mt_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#mt_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Material_Technology"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_LongStreetBanquet -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_LongStreetBanquet">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Picture"/>
+        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">A photo of the &quot;Long Street Banquet&quot;</owl:topDataProperty>
+        <rdfs:comment>pict_SGWR_lsb_1</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_Procession -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_Procession">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Picture"/>
+        <owl:topDataProperty rdf:datatype="http://www.w3.org/2001/XMLSchema#anyURI">A procession to worship ceremony</owl:topDataProperty>
+        <rdfs:comment>pict_SGWR_procession_1</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#rf_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#rf_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Ritual_Function"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ss_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ss_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Social_Structure"/>
+        <rdfs:label>Calendar System</rdfs:label>
+        <rdfs:label>Cultural Memory</rdfs:label>
+        <rdfs:label>Ecological Worldview</rdfs:label>
+        <rdfs:label>Evolution Characteristics</rdfs:label>
+        <rdfs:label>Material and Techinology</rdfs:label>
+        <rdfs:label>Ritual Function</rdfs:label>
+        <rdfs:label>Social Structure and Power</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Text"/>
+        <owl:topDataProperty>In every Hani people village, there exists a sacred grove (known as *Ji Zhaishenlin* in Chinese), believed to be the dwelling place of the village guardian deity. Annually, before the spring plowing season, villagers gather in this grove to conduct a solemn ritual led by venerated village elders. Accompanied by select prosperous and virtuous male villagers, they perform ritual animal sacrifices to honor the deity. This is followed by vibrant celebrations, including the iconic Long Street Banquet and traditional song and dance performances. Through these acts, the Hani people pray for favorable weather, abundant harvests, and peace for both people and livestock. **This sacred tradition is called the &quot;Sacred Grove Worship Ritual&quot;.</owl:topDataProperty>
+        <rdfs:comment>text_SGWR_1</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_2 -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_2">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Text"/>
+        <owl:topDataProperty>The Sacred Grove Worship Ritual is a sacrificial activity held by the Hani ethnic group before the start of spring plowing every year, praying for favorable weather, a bumper harvest of grains, and the safety of people and livestock in the coming year.
+The Sacred Grove Worship Ritual is widely spread in the Hani ethnic villages in Yunnan Province. The Sacred Grove Worship Rituals in all townships and towns of Yuanyang County are the most grand festive ceremonies among all Hani ethnic villages. The Sacred Grove Worship Ritual has a long history, but the festival periods of the Sacred Grove Worship Ritual vary slightly in different places. In areas such as Habo Village in Yuanyang County, the Sacred Grove Worship Ritual starts from the first Chen (Dragon) Day in the twelfth lunar month and lasts until the Wu (Horse) Day, with a festival period of three days. On the first day of the festival, the village is cleaned, chickens are killed, glutinous rice cakes are pounded, and three-colored salted duck eggs are dyed. Several men from prosperous and upright families are led by the respected village elders to sacrifice animals to the sacred grove. The sacrificed animals are evenly distributed among all the families in the village. Every family member and livestock must taste a bite, and the meat must also be mixed into the seeds of the five grains. On the second and third days, a long street banquet is held, and the ancient Haba (ancient songs) are chanted all night long. The elders tell the descendants the history of the ancestors&apos; migration, impart the ethics of making a living, and the techniques of terrace farming, and evaluate the virtues of each villager over the past year.
+Regardless of the size of the Hani villages and the number of people, each has its own sacred grove and the sacred tree of the village. In the sacred grove, a straight-trunked and lush evergreen tree is selected as the &quot;Angma Abo&quot; (the sacred tree of the village). The sacred tree of the village is the idol of the village god, making the sacred grove solemn, sacred, and inviolable, and it is protected by all the villagers. Every year, the sacrifice to the village god is carried out under the sacred tree of the village, usually on the second Ox Day after the &quot;October Year&quot; or after the Spring Festival. The &quot;Migu&quot; presides over the killing of a pig for the whole village, and each family gets a share as an offering for family sacrifice. Glutinous rice cakes are pounded, and colored egg gifts are made. Neighbors and relatives and friends are invited to participate in the festival. In some places, a long street banquet is also set up, and the Manggu Dance is performed for the sacrifice to the village god, in order to pray for the village god to protect the peace of the village, the prosperity of people and livestock, and a bumper harvest of grains.</owl:topDataProperty>
+        <rdfs:comment>text_SGWR_2</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_3 -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_3">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Text"/>
+        <owl:topDataProperty>Its main contents include:
+1.  Clean the village and family hygiene.
+2.  Sacrifice to the ancestors and gods. During the festival, cows and pigs are slaughtered, glutinous rice cakes are pounded, and sacrifices are offered to the Heavenly God, the God of Nature, and the ancestors. During the Kuzhazha Festival, cows are killed and sacrificed to the heaven at the sacrificial field beside the village. During the &quot;October Year&quot;, pigs and chickens are killed at home to sacrifice to the ancestors. When sacrificing to the village god, pigs are killed and sacrificed to the village god in the sacred grove. The theme of the sacrifice is to pray for the well-being of the family, a bumper harvest of grains, and the prosperity of livestock.
+3.  Set up a street heart wine banquet. During the festival, all the villagers in the village eat and drink together. People within the village, among the same ethnic group, and with friends of other ethnic groups communicate and communicate with each other, offer blessings to each other, and jointly pray for or celebrate the bumper harvest of grains in the terraces and the well-being of families, achieving a harmonious state.
+4.  Seek blessings from the village god, receive blessings, and share the blessings with relatives and friends. During the long street banquet in Habo Village, if a new baby is born in the village, the parents will go to the &quot;Migu&quot; and &quot;Mopi&quot; in front of the main table with cigarettes and alcohol to register, and kneel down to seek blessings. They will leave satisfied only after receiving the blessings of the elders. There are also those who go to seek blessings because their children are in poor health, and they will also receive sincere blessings.
+5.  Exchange feelings and learn from each other. Whether it is the Kuzhazha Festival, the &quot;October Year&quot;, or the day of sacrificing to the village god, during the festival, people exchange feelings and discuss production techniques. Or the elders chant the Hani Haba, introducing the history, ethics, and the production and living experience of terrace farming to the younger generation in the form of ancient songs and ballads.
+6.  Display ethnic songs and dances. During the festival, for the peace of the village and the bumper harvest of grain crops, men, women, and children put on new clothes and joyfully dance the Lezuo Dance. The dance tracks danced in different places are not exactly the same, but the theme is for the bumper harvest of grains and the peace of the village. People sing, &quot;If you don&apos;t dance the Lezuo Dance, the village will not be peaceful; if you don&apos;t dance the Lezuo Dance, the cotton will not have a good yield; if you don&apos;t dance the Lezuo Dance, the grains will not have a bumper harvest. Sing and dance.&quot; The Hani people believe that the more joyfully they dance, the better the harvest will be in the coming year.</owl:topDataProperty>
+        <rdfs:comment>text_SGWR_3</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_4 -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_4">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Text"/>
+        <owl:topDataProperty>The Sacred Grove Worship Ritual showcases the traditional culture of the Hani ethnic group, especially its cultural elements such as the solar calendar and phenological calendar, the epic of creation and migration, narrative long poems, music, and dance. Secondly, the Sacred Grove Worship Ritual fully reflects the Hani ethnic group&apos;s world view of understanding the will of heaven, conforming to nature, and pursuing the harmony between man and nature. Thirdly, the Sacred Grove Worship Ritual is the prelude to spring plowing and preparation, fully demonstrating the knowledge system of the etiquette, techniques, and taboos of terrace farming in the mountainous areas of the Hani ethnic group.
+With the development of the times, the Sacred Grove Worship Ritual shows a trend of increasing scale and wider influence, but the inheritance of the traditional epics, knowledge, techniques, and values within it is gradually fading, and urgent protection is needed.</owl:topDataProperty>
+        <rdfs:comment>text_SGWR_4</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#vec_ws_cm_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#vec_ws_cm_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Embedding"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#vec_ws_cs_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#vec_ws_cs_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#Embedding"/>
+        <YN-ICH-ontology:wordVector>[0.33239,0.55431,...],[0.99832,0.435517,...],[...],...</YN-ICH-ontology:wordVector>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ws_cm_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ws_cm_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet"/>
+        <YN-ICH-ontology:extractedFrom rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_LongStreetBanquet"/>
+        <YN-ICH-ontology:extractedFrom rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#pict_Procession"/>
+        <YN-ICH-ontology:hasEmbedding rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#vec_ws_cm_Historical"/>
+        <YN-ICH-ontology:wordList>Creation Migration Epic , Narrative Long Poems , Haba Ancient Songs , Oral Tradition , Ancestral Migration History</YN-ICH-ontology:wordList>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ws_cs_Historical -->
+
+    <owl:NamedIndividual rdf:about="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#ws_cs_Historical">
+        <rdf:type rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#WordSet"/>
+        <YN-ICH-ontology:extractedFrom rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_3"/>
+        <YN-ICH-ontology:extractedFrom rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#text_HaniSacredGroveWorshipRitual_4"/>
+        <YN-ICH-ontology:hasEmbedding rdf:resource="http://mef.kust.edu.cn/ontologies/YN-ICH-ontology#vec_ws_cs_Historical"/>
+        <YN-ICH-ontology:wordList>Solar Calendar, henological Calendar, Prelude to Spring Plowing, Lunar Festival Period,  Cyclical Temporality</YN-ICH-ontology:wordList>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

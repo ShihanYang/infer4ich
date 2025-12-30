@@ -1,0 +1,591 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://mef.kust.edu.cn/ICH/ynich"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://mef.kust.edu.cn/ICH/ynich">
+    <Prefix name="" IRI="http://www.semanticweb.org/ICH/ontologies/ynich/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <Literal xml:lang="en">Intangible Culture Heritage in Yunnan, China (YNICH)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <Literal xml:lang="zh">云南非物质文化遗产本体 (云南非遗)</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Action"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Aesthetic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Application"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Archives"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Category_CN"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Catogory_UNESCO"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Dissemination"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Document"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Event"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FactualFeature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Feature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Frontier"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Historic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Inheritance"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Innovation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Law"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Level"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Material"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Nationality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OntologicalFeature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#People"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Policy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Project"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Protection"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Semiotic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Space"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Time"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#YunnanICH"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Social&amp;Ecnomic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://www.semanticweb.org/ICH/ontologies/ynich#ICH"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongtoCategory_CN"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongtoCategory_UNESCO"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasActions"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFeatures"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasProjects"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#onFrontier"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#onNationality"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ownLevel"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#level"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#reference_num"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ChinaICH"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#County_level"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Municipal_level"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#National_level"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Provincial_level"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#UNESCO-1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#UNESCO-2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#UNESCO_level"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#YNICH"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#花灯"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Aesthetic"/>
+        <Class IRI="#OntologicalFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Application"/>
+        <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Archives"/>
+        <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Dissemination"/>
+        <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Document"/>
+        <Class IRI="#Archives"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Event"/>
+        <Class IRI="#FactualFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FactualFeature"/>
+        <Class IRI="#Feature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Frontier"/>
+        <Class IRI="#Space"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Historic"/>
+        <Class IRI="#OntologicalFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Inheritance"/>
+        <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Innovation"/>
+        <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Law"/>
+        <Class IRI="#Archives"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Material"/>
+        <Class IRI="#FactualFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Nationality"/>
+        <Class IRI="#People"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OntologicalFeature"/>
+        <Class IRI="#Feature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#People"/>
+        <Class IRI="#FactualFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Policy"/>
+        <Class IRI="#Archives"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Protection"/>
+        <Class IRI="#Action"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Semiotic"/>
+        <Class IRI="#OntologicalFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Space"/>
+        <Class IRI="#FactualFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Time"/>
+        <Class IRI="#FactualFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YunnanICH"/>
+        <Class IRI="http://www.semanticweb.org/ICH/ontologies/ynich#ICH"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Social&amp;Ecnomic"/>
+        <Class IRI="#OntologicalFeature"/>
+    </SubClassOf>
+    <ClassAssertion>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal xml:lang="zh">中国非物质文化遗产</Literal>
+        </Annotation>
+        <Class IRI="http://www.semanticweb.org/ICH/ontologies/ynich#ICH"/>
+        <NamedIndividual IRI="#ChinaICH"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Level"/>
+        <NamedIndividual IRI="#County_level"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Level"/>
+        <NamedIndividual IRI="#Municipal_level"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Level"/>
+        <NamedIndividual IRI="#National_level"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Level"/>
+        <NamedIndividual IRI="#Provincial_level"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Catogory_UNESCO"/>
+        <NamedIndividual IRI="#UNESCO-1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Catogory_UNESCO"/>
+        <NamedIndividual IRI="#UNESCO-2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Level"/>
+        <NamedIndividual IRI="#UNESCO_level"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#YunnanICH"/>
+        <NamedIndividual IRI="#YNICH"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Project"/>
+        <NamedIndividual IRI="#花灯"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasProjects"/>
+        <NamedIndividual IRI="#YNICH"/>
+        <NamedIndividual IRI="#花灯"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#belongtoCategory_UNESCO"/>
+        <NamedIndividual IRI="#花灯"/>
+        <NamedIndividual IRI="#UNESCO-1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#ownLevel"/>
+        <NamedIndividual IRI="#花灯"/>
+        <NamedIndividual IRI="#National_level"/>
+    </ObjectPropertyAssertion>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#belongtoCategory_CN"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#belongtoCategory_UNESCO"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasActions"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasFeatures"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasProjects"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#onFrontier"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#onNationality"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#ownLevel"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongtoCategory_CN"/>
+        <Class IRI="#Project"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongtoCategory_UNESCO"/>
+        <Class IRI="#Project"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActions"/>
+        <Class IRI="#YunnanICH"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasActions"/>
+        <Class IRI="http://www.semanticweb.org/ICH/ontologies/ynich#ICH"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFeatures"/>
+        <Class IRI="#Project"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasProjects"/>
+        <Class IRI="http://www.semanticweb.org/ICH/ontologies/ynich#ICH"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#onFrontier"/>
+        <Class IRI="#YunnanICH"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#onNationality"/>
+        <Class IRI="#YunnanICH"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ownLevel"/>
+        <Class IRI="#Project"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongtoCategory_CN"/>
+        <Class IRI="#Category_CN"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongtoCategory_UNESCO"/>
+        <Class IRI="#Catogory_UNESCO"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasActions"/>
+        <Class IRI="#Action"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFeatures"/>
+        <Class IRI="#Feature"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasProjects"/>
+        <Class IRI="#Project"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#onFrontier"/>
+        <Class IRI="#Frontier"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#onNationality"/>
+        <Class IRI="#Nationality"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ownLevel"/>
+        <Class IRI="#Level"/>
+    </ObjectPropertyRange>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#level"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#level"/>
+        <Class IRI="#Project"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#reference_num"/>
+        <Class IRI="#Project"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#reference_num"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Action</IRI>
+        <Literal xml:lang="en">action on ICH</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Action</IRI>
+        <Literal xml:lang="zh">行动</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Application</IRI>
+        <Literal xml:lang="zh">非遗应用</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Category_CN</IRI>
+        <Literal xml:lang="zh">中国非遗项目10分类法</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Catogory_UNESCO</IRI>
+        <Literal xml:lang="zh">联合国教科文组织非遗项目5分类法</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Dissemination</IRI>
+        <Literal xml:lang="zh">非遗的传播和共享（文化的认识和理解）</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event</IRI>
+        <Literal xml:lang="zh">围绕非遗的活动和事件：制作技艺、重大事件等</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Feature</IRI>
+        <Literal xml:lang="en">Features of ICH</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Feature</IRI>
+        <Literal xml:lang="zh">特征</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Inheritance</IRI>
+        <Literal xml:lang="zh">传承</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Innovation</IRI>
+        <Literal xml:lang="zh">创新</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Level</IRI>
+        <Literal xml:lang="zh">中国非遗项目级别（5级）</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Material</IRI>
+        <Literal xml:lang="zh">非遗中除了人之外的其它物质载体（非遗有形证据）：工具、材料、文物等</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#People</IRI>
+        <Literal xml:lang="zh">非遗传承人、人群，非遗产生的群体、族群，非遗受益的人群，等与非遗相关的人、人群、族群等。</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Project</IRI>
+        <Literal xml:lang="en">Item (Project) of ICH</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Project</IRI>
+        <Literal xml:lang="zh">项目</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Protection</IRI>
+        <Literal xml:lang="zh">保护</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Space</IRI>
+        <Literal xml:lang="zh">非遗产生、发展、传承、创新、应用等的地理空间以及文化空间</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Time</IRI>
+        <Literal xml:lang="zh">非遗的时间事实，起源、发展、发现、传承、创新等活动的时间要素</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#YunnanICH</IRI>
+        <Literal xml:lang="en">Intangible Culture Heritage in Yunnan province, China</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#YunnanICH</IRI>
+        <Literal xml:lang="zh">云南非物质文化遗产</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#YunnanICH</IRI>
+        <Literal xml:lang="en">Intangible Culture Heritage in Yunnan, China</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#YunnanICH</IRI>
+        <Literal xml:lang="zh">云南非物质文化遗产</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#level</IRI>
+        <Literal xml:lang="en">the level of ICH</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#level</IRI>
+        <Literal xml:lang="zh">级别</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#reference_num</IRI>
+        <Literal xml:lang="en">Reference Number of an ICH Project in China</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#reference_num</IRI>
+        <Literal xml:lang="zh">中国非遗项目编号（罗马数字I到X-阿拉伯数字0000）</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/ICH/ontologies/ynich#ICH</IRI>
+        <Literal xml:lang="en">Intangible Culture Heritage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://www.semanticweb.org/ICH/ontologies/ynich#ICH</IRI>
+        <Literal xml:lang="zh">非物质文化遗产</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/ICH/ontologies/ynich#ICH</IRI>
+        <Literal xml:lang="en">Intangible Culture Heritage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>http://www.semanticweb.org/ICH/ontologies/ynich#ICH</IRI>
+        <Literal xml:lang="zh">非物质文化遗产</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+
