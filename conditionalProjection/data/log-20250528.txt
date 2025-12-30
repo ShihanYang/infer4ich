@@ -1,0 +1,125 @@
+1. score2(k=1.2)
+    Disciplinary Space:
+        history - (6538, 768) 
+        aesthetic - (13715, 768)
+        semiology - (8956, 768) 
+        sociology - (3693, 768) 
+    Wordsets Embedding:
+        independ - (3, 768)    
+        interdepend - (18, 768)
+        individ - (3, 768)     
+        collect - (16, 768)    
+        tight - (18, 768)      
+        loose - (3, 768)
+        relmobility - (18, 768)
+
+    HANI @ 2025-05-28 22:06:33.031364
+    Got scores of HANI on weighted disciplines :
+    - independ:
+    0.4551246996174108
+    - interdepend:
+    0.42937451959742
+    - individ:
+    0.4789193716644058
+    - collect:
+    0.41711100279376095
+    - tight:
+    0.40377115363886534
+    - loose:
+    0.4342556409671161
+    - relmobility:
+    0.44075073898646083
+
+2. score2(k=1.2)
+    Disciplinary Space:
+        history - (6538, 768)
+        aesthetic - (13715, 768)
+        semiology - (8956, 768)
+        sociology - (3693, 768)
+    Wordsets Embedding:
+        independ - (5, 768)
+        interdepend - (11, 768)
+        individ - (4, 768)
+        collect - (10, 768)
+        tight - (9, 768)
+        loose - (4, 768)
+        relmobility - (13, 768)
+
+    BAI @ 2025-05-28 22:13:54.516037
+    Got scores of BAI on weighted disciplines :
+    - independ:
+    0.4417505919709751
+    - interdepend:
+    0.4057368220053388
+    - individ:
+    0.40010563057420645
+    - collect:
+    0.36340052616277096
+    - tight:
+    0.39046684892114175
+    - loose:
+    0.45029963597024136
+    - relmobility:
+    0.4079040300273249
+
+3. score(eigen/sqrt(768))
+    Disciplinary Space:
+        history - (6538, 768) 
+        aesthetic - (13715, 768)
+        semiology - (8956, 768) 
+        sociology - (3693, 768) 
+    Wordsets Embedding:
+        independ - (5, 768)    
+        interdepend - (11, 768)
+        individ - (4, 768)     
+        collect - (10, 768)    
+        tight - (9, 768)       
+        loose - (4, 768)
+        relmobility - (13, 768)
+    BAI @ 2025-05-29 10:30:46.215457
+    Got scores of BAI on weighted disciplines :
+    - independ:
+    0.06709258553759272
+    - interdepend:
+    0.0950439740261719
+    - individ:
+    0.063423838903018
+    - collect:
+    0.09620476776950415
+    - tight:
+    0.09009888461917079
+    - loose:
+    0.057605771321157295
+    - relmobility:
+    0.1018604116967867
+
+4. score(eigen/sqrt(768))
+    Disciplinary Space:
+        history - (6538, 768)
+        aesthetic - (13715, 768)
+        semiology - (8956, 768)
+        sociology - (3693, 768)
+    Wordsets Embedding:
+        independ - (3, 768)
+        interdepend - (18, 768)
+        individ - (3, 768)
+        collect - (16, 768)
+        tight - (18, 768)
+        loose - (3, 768)
+        relmobility - (18, 768)
+    HANI @ 2025-05-29 10:39:25.634435
+    Got scores of HANI on weighted disciplines :
+    - independ:
+    0.05188264144844175
+    - interdepend:
+    0.1160541310074813
+    - individ:
+    0.052445969999749265
+    - collect:
+    0.11043485734002526
+    - tight:
+    0.12085372175582393
+    - loose:
+    0.05204620095676264
+    - relmobility:
+    0.117565744585021

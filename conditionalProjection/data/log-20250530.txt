@@ -1,0 +1,76 @@
+1. 两个ICH items的相似性 （maxeigen distance + softmax + sigmoid, full dataset）
+@ 2025-05-30 07:56:02.566677 - similarity between BAI-SYJ and HANI-JZSL
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ...
+  is processing & OK: Projected. (0:39:04.56)
+  their distance in the history : -3.97441263978995
+  their distance in the aesthetic : -4.079407024446919
+  their distance in the semiology : -3.8352600144885525
+  their distance in the sociology : -4.0556799745740975
+Similarity on each space:
+  similarity in the history : 0.8004748493750756
+  similarity in the aesthetic : 0.8234415271727564
+  similarity in the semiology : 0.7620066972137219
+  similarity in the sociology : 0.8186431953707394
+weights vector : [0.35587500000000005, 0.06175, 0.12785, 0.4545]
+Weighted similarity on all spaces: 0.8052123898590482
+&@ 2025-05-30 08:36:13.998765 DONE.
+
+2. 各个维度的加权相似性
+@ 2025-05-30 10:48:26.784217 - pyschology dimension similarity between BAI and HANI
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ...
+  is processing & OK: Projected. (0:13:23.21)
+  their distance independ_interdepend in history : -0.2982349750326323
+  their distance individ_collect in history : -0.15241503259456968
+  their distance tight_loose in history : -0.03625433911095133
+  their distance relmobility in history : -0.4108442291612828
+  their distance independ_interdepend in aesthetic : -0.31460753572255973
+  their distance individ_collect in aesthetic : -0.17730596512845365
+  their distance tight_loose in aesthetic : -0.06632761564132705
+  their distance relmobility in aesthetic : -0.48004221881719067
+  their distance independ_interdepend in semiology : -0.2789034731222668
+  their distance individ_collect in semiology : -0.14837128991394177
+  their distance tight_loose in semiology : -0.04502790644750254
+  their distance relmobility in semiology : -0.4387007166116632
+  their distance independ_interdepend in sociology : -0.312307257641673
+  their distance individ_collect in sociology : -0.17415485528984753
+  their distance tight_loose in sociology : -0.06902481359764012
+  their distance relmobility in sociology : -0.47077178129655106
+Dimensional similarity on each space:
+  similarity independ_interdepend in history : 0.8015450756927421
+  similarity independ_interdepend in aesthetic : 0.8054016489527214
+  similarity independ_interdepend in semiology : 0.7968337390059148
+  similarity independ_interdepend in sociology : 0.8048670517477876
+weights vector in independ_interdepend (0.2949, 0.0475, 0.1471, 0.5104)
+Weighted dimensional similarity on all spaces: 0.8026506073668848
+  similarity individ_collect in history : 0.7996436566492745
+  similarity individ_collect in aesthetic : 0.8055477600115958
+  similarity individ_collect in semiology : 0.7986577411010924
+  similarity individ_collect in sociology : 0.8048157101382936
+weights vector in individ_collect (0.2953, 0.0509, 0.1311, 0.5227)
+Weighted dimensional similarity on all spaces: 0.8025183543407604
+  similarity tight_loose in history : 0.797872363752817
+  similarity tight_loose in aesthetic : 0.8050695859030239
+  similarity tight_loose in semiology : 0.8000148996597328
+  similarity tight_loose in sociology : 0.8056951554794339
+weights vector in tight_loose (0.276, 0.1001, 0.0917, 0.5322)
+Weighted dimensional similarity on all spaces: 0.8029525659896224
+  similarity relmobility in history : 0.7925798585062638
+  similarity relmobility in aesthetic : 0.8091982361970701
+  similarity relmobility in semiology : 0.7995346206568812
+  similarity relmobility in sociology : 0.8070969304093272
+weights vector in relmobility (0.5573, 0.0485, 0.1415, 0.2527)
+Weighted dimensional similarity on all spaces: 0.7980384127384843
+&@ 2025-05-30 11:02:52.020265 DONE.
+{'independ_interdepend': 0.8026506073668848, 
+ 'individ_collect': 0.8025183543407604, 
+ 'tight_loose': 0.8029525659896224, 
+ 'relmobility': 0.7980384127384843}
+ 

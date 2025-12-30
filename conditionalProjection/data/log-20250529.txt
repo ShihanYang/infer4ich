@@ -1,0 +1,199 @@
+1. score - (max-eigen / np.sqrt(768)) * rank(projection)
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (5, 768)
+     interdepend - (11, 768)
+     individ - (4, 768)
+     collect - (10, 768)
+     tight - (9, 768)
+     loose - (4, 768)
+     relmobility - (13, 768)
+BAI @ 2025-05-29 10:57:41.680446
+Got scores of BAI on weighted disciplines :
+- independ:
+   0.33285229048067466
+- interdepend:
+   1.0461931928394224
+- individ:
+   0.2542087337006207
+- collect:
+   0.9600625473145935
+- tight:
+   0.8120812933426151
+- loose:
+   0.23146602804852634
+- relmobility:
+   1.327435674238805
+
+2. score - (max-eigen / np.sqrt(768)) * rank(projection)  # 可以在各个维度进行归一化也可以，但是relmobility这个维度如何处理？
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (3, 768)
+     interdepend - (18, 768)
+     individ - (3, 768)
+     collect - (16, 768)
+     tight - (18, 768)
+     loose - (3, 768)
+     relmobility - (18, 768)
+HANI @ 2025-05-29 11:06:00.236469
+Got scores of HANI on weighted disciplines :
+- independ:
+   0.1559814312769106
+- interdepend:
+   2.088723718214066
+- individ:
+   0.15749044761220352
+- collect:
+   1.7681369164684455
+- tight:
+   2.1782632867485305
+- loose:
+   0.15584368048209282
+- relmobility:
+   2.1214429779246577
+
+=====================================================================================
+*************************************************************************************
+=====================================================================================
+
+3. score - (max-eigen / np.sqrt(768)) * np.sqrt(rank(projection))
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (5, 768)
+     interdepend - (11, 768)
+     individ - (4, 768)
+     collect - (10, 768)
+     tight - (9, 768)
+     loose - (4, 768)
+     relmobility - (13, 768)
+BAI @ 2025-05-29 11:19:40.333863
+Got scores of BAI on weighted disciplines :
+- independ:
+   0.1491634952347125
+- interdepend:
+   0.3149575280979488
+- individ:
+   0.1270324994695138
+- collect:
+   0.3039200280828747
+- tight:
+   0.2705769942931897
+- loose:
+   0.1153830265223226
+- relmobility:
+   0.3685530539530908
+
+4. score - (max-eigen / np.sqrt(768)) * np.sqrt(rank(projection))
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (3, 768)
+     interdepend - (18, 768)
+     individ - (3, 768)
+     collect - (16, 768)
+     tight - (18, 768)
+     loose - (3, 768)
+     relmobility - (18, 768)
+HANI @ 2025-05-29 11:13:48.684062
+Got scores of HANI on weighted disciplines :
+- independ:
+   0.09012951431918431
+- interdepend:
+   0.49209476995200396
+- individ:
+   0.09099427964243133
+- collect:
+   0.4416038020671211
+- tight:
+   0.5118341563757809
+- loose:
+   0.09023236372325513
+- relmobility:
+   0.4995588254508754
+
+
+=================================
+Conditional Similarity based on:
+=================================
+1. normalized distance  （不能用，距离都是0，相似度都是0.5）
+
+2. wasserstein distance  （距离太小接近0.0001，相似度没有大的区别）
+
+3. hausdorff distance  （）
+
+
+4. maxeigen distance  (比较好的结果)  参数（10-20， 111）
+@ 2025-05-29 20:20:02.210937 - similarity between BAI-SYJ and HANI-JZSL
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ...
+  is processing & OK: Projected. (0:00:01.62)
+  their distance in the history : 0.7785404785302288
+  their distance in the aesthetic : -0.15434738466258535
+  their distance in the semiology : 0.42504185126746474
+  their distance in the sociology : 0.4859125759120557
+Similarity on each space:
+  similarity in the history : 0.3146345315690178
+  similarity in the aesthetic : 0.5385104233168866
+  similarity in the semiology : 0.3953109111070383
+  similarity in the sociology : 0.38085693191678205
+weights vector : [0.35587500000000005, 0.06175, 0.12785, 0.4545]
+Weighted similarity on all spaces: 0.36886355810315424
+
+5. maxeigen distance  (比较好的结果)  全参数（full， full）
+@ 2025-05-29 20:22:46.769589 - similarity between BAI-SYJ and HANI-JZSL
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ...
+  is processing & OK: Projected. (0:46:23.65)
+  their distance in the history : -3.980364086567624
+  their distance in the aesthetic : -4.087797368350424
+  their distance in the semiology : -3.81539122087659
+  their distance in the sociology : -4.051460374637884
+Similarity on each space:
+  similarity in the history : 0.9816636640516625
+  similarity in the aesthetic : 0.9835006509055996
+  similarity in the semiology : 0.9784457266002254
+  similarity in the sociology : 0.9829005286339376
+weights vector : [0.35587500000000005, 0.06175, 0.12785, 0.4545]
+Weighted similarity on all spaces: 0.9819032980477697
+
+6. maxeigen distance  (比较好的结果)  参数（10-20， 120）
+@ 2025-05-29 21:53:02.290753 - similarity between BAI-SYJ and HANI-JZSL
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ...
+  is processing & OK: Projected. (0:00:02.05)
+  their distance in the history : -0.11953239553147021
+  their distance in the aesthetic : -0.15434723307103848
+  their distance in the semiology : 1.1555076773756792
+  their distance in the sociology : -0.13611422982193977
+Similarity on each space:
+  similarity in the history : 0.8787779487590716
+  similarity in the aesthetic : 0.8820882541947157
+  similarity in the semiology : 0.4038890125833513
+  similarity in the sociology : 0.8803788664332902
+weights vector : [0.35587500000000005, 0.06175, 0.12785, 0.4545]
+Weighted similarity on all spaces: 0.8189734572638703
+&@ 2025-05-29 21:54:06.915772 DONE.

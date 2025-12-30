@@ -14,4 +14,27 @@
 6. Make decision based on computed cultural cognition. Employ Machine Learning: Train a machine learning model to predict the cultural heritage value of the object based on the extracted features.
 7. Evaluation: Evaluate the performance of the model using various metrics such as accuracy, precision, recall, F1-score, and AUC-ROC.
 
-### The project is still in the development phase, and we will continuously report on our latest research findings.
+## Performance Evaluation:
+
+- Codes in directory 'conditionalProjection' is used for Chinese embedding and projection calculation (Please ensure that you have configured the correct directory paths for your datasets and output vectors).
+- Perform projection and similarity calculation using the command below:
+
+```bash
+python projection2.py
+```
+
+- You can perform classification tasks by executing the command below:
+
+```bash
+python classifying.py
+```
+
+- Or, execute the classification task using the command below, while also displaying the classification boundaries:
+
+```bash
+python classifying2.py
+```
+
+### Notes:
+
+- The project is still in the development phase, and we will continuously report on our latest research findings.

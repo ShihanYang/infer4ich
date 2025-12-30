@@ -1,0 +1,62 @@
+E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/wordev/weighted_scores.py
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (5, 768)
+     interdepend - (11, 768)
+     individ - (4, 768)
+     collect - (10, 768)
+     tight - (9, 768)
+     loose - (4, 768)
+     relmobility - (13, 768)
+BAI @ 2025-11-20 18:31:10.056208
+Got scores of BAI on weighted disciplines :
+- independ:
+   0.1492115337212782
+- interdepend:
+   0.31508365866608967
+- individ:
+   0.12656641359916834
+- collect:
+   0.30327907920289315
+- tight:
+   0.27045721151863966
+- loose:
+   0.11513652174600592
+- relmobility:
+   0.3680151116529347
+
+
+PS E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/wordev/weighted_scores.py
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (3, 768)
+     interdepend - (18, 768)
+     individ - (3, 768)
+     collect - (16, 768)
+     tight - (18, 768)
+     loose - (3, 768)
+     relmobility - (18, 768)
+HANI @ 2025-11-20 18:49:23.492425
+Got scores of HANI on weighted disciplines :
+- independ:
+   0.09009219045205309
+- interdepend:
+   0.4930195269776997
+- individ:
+   0.09069784707644293
+- collect:
+   0.4407023498757263
+- tight:   
+   0.5130219170499621
+- loose:
+   0.09029155074192716
+- relmobility:
+   0.5009288583449145
