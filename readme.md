@@ -4,7 +4,7 @@
 - This project aims to develop a machine learning approach to infer the cultural heritage value of a given object based on its textual and visual features.
 - We will extract four ontology-based features from a given textual and visual corpus of ICH objects, and then use machine learning algorithms to train a model to predict the cultural heritage value of the object.
 
-## Steps of the Project
+## Steps of the method:
 
 1. Data Collection: Collect a dataset of ICH objects with their textual and visual mateirals.
 2. Building Dictionary on four principles: 'Historical / Aesthetic / Semiotic / Sociological' as the backgound of the ICH.
@@ -14,4 +14,4 @@
 6. Make decision based on computed cultural cognition. Employ Machine Learning: Train a machine learning model to predict the cultural heritage value of the object based on the extracted features.
 7. Evaluation: Evaluate the performance of the model using various metrics such as accuracy, precision, recall, F1-score, and AUC-ROC.
 
-## The project is still in the development phase, and we will continuously report on our latest research findings.
+### The project is still in the development phase, and we will continuously report on our latest research findings.
