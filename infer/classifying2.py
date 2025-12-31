@@ -1,5 +1,13 @@
-# 该文件用于实现KNN分类器，并绘制三类样本点的分布
-# 注意修改读入的文件名，以载入不同的数据集
+#  @file: classifying2.py
+#  @version：1.0.5
+#  @brief:  该文件用于实现KNN分类器，并绘制三类样本点的分布
+#           注意修改读入的文件名，以载入不同的数据集
+#  @creation date: 2025.08.28
+#  @last modified date: 2025.11.13 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
 
 import numpy as np
 import matplotlib.pyplot as plt

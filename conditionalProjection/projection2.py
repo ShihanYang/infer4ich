@@ -1,5 +1,13 @@
-# read wordset vectors and Disciplinary Vocabulary Vector Spaces from .csv file
-# and computing the projection of the wordset vectors onto the disciplinary space.
+#  @file: projection2.py
+#  @version：1.0.5
+#  @brief: read wordset vectors and Disciplinary Vocabulary Vector Spaces from .csv file
+#          and computing the projection of the wordset vectors onto the disciplinary space.
+#  @creation date: 2025.08.28
+#  @last modified date: 2025.11.13 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license.
+
 
 from projection import project_onto_orthogonal_basis as project
 from similarity import wasserstein_distance as wasserstin

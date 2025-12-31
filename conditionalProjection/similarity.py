@@ -1,4 +1,12 @@
-# computing the similarity between vectors
+#  @file: similarity.py
+#  @version：1.0.0
+#  @brief: computing the similarity between vectors
+#  @creation date: 2025.06.28
+#  @last modified date: 2025.10.10 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license.
+
 
 import numpy as np
 import projection as prj

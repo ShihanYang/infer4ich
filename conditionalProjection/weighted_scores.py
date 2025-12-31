@@ -1,6 +1,14 @@
-# computing the weighted scores in following weight-vectors
-# @update: 2025.11.20
-# disciplinary weights on the cultural psychological framework
+#  @file: weighted_scores.py
+#  @version：1.0.5
+#  @brief: computing the weighted scores in following weight-vectors
+#          disciplinary weights on the cultural psychological framework
+#  @creation date: 2025.08.28
+#  @last modified date: 2025.11.20
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
+
 
 ####  pyschological dimension      #    disciplinary weights (history/Aesthetic/semiology/sociology) ###
 # ------------------------------------------------------------------------------------------------------------
@@ -44,7 +52,7 @@ wordset_files = [
     "loose.csv.vec",
     "relmobility.csv.vec"
 ]
-path = r"E:/Desktop/非遗/experiment/wordev/"
+path = r"./"
 
 # load embedding domain spaces
 directory = path + r"data/"

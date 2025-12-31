@@ -1,4 +1,12 @@
-# KNN Algorithm with k = 3 (goverment-led, community-leb, mixed pattern)
+#  @file: classifying.py
+#  @version：1.0.5
+#  @brief: KNN Algorithm with k = 3 (goverment-led, community-leb, mixed pattern)
+#  @creation date: 2025.08.28
+#  @last modified date: 2025.11.12 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
 
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,4 +1,4 @@
-#  @file: ICH_conditional_similarity_module.py
+#  @file: projcondSimilarity.py
 #  @version：1.0.8
 #  @brief: Compute conditional similarity of two projections onto multi-spaces
 #    - two projection vector sets are saved in the .csv files

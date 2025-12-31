@@ -1,3 +1,12 @@
+#  @file: berttune.py
+#  @version：1.0.5
+#  @brief: # Tunning Transformer-based模型
+#  @creation date: 2025.08.28
+#  @last modified date: 2025.10.12 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
 # Tunning Transformer-based模型（如BERT、RoBERTa等）可以生成上下文相关的词向量。与传统的静态词向量不同，这些模型的词向量会根据上下文动态变化。
 # 在具体实践中，微调BERT模型可能需要一定的计算资源和时间，但通常可以为特定任务提供出色的性能。
 # 关键challenge：如何准备自己的调优数据！
@@ -26,7 +35,7 @@ from datasets import load_dataset, load_from_disk    # ToDo 需要重新准备�
 import re   
 from sklearn.metrics import accuracy_score   
 
-modelpath = r'F:\mycodes\wordev\model\bert-base-chinese'   
+modelpath = r'.\model\bert-base-chinese'   
 tokenizer = BertTokenizer.from_pretrained(modelpath)   # 加载分词器
 model = BertForSequenceClassification.from_pretrained(modelpath, num_labels=3)   # 加载预训练模型
 
@@ -53,7 +62,7 @@ print("标签集合:", labels)  # ['LABEL_0', 'LABEL_1', 'LABEL_2']
 # dataset = load_dataset("csv", data_files={"train": r"F:\mycodes\wordev\data\train.csv"})  # 加载本地数据集合
 
 # 或者这样读文件夹组织的数据
-dataset_path = r"F:\mycodes\wordev\data\lansinuote\ChnSentiCorp"
+dataset_path = r".\data\lansinuote\ChnSentiCorp"
 dataset = load_from_disk(dataset_path)
 
 print(dataset)  # 查看数据集描述

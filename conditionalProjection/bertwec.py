@@ -1,3 +1,11 @@
+#  @file: bertwec.py
+#  @version：1.0.5
+#  @brief: # Embedding Vectors with BERT
+#  @last modified date: 2025.10.12 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
 ################
 # 使用BERT模型
 ################
@@ -6,10 +14,10 @@ from transformers import BertTokenizer, BertModel
 
 #加载BERT的分词器和模型 
 tokenizer = BertTokenizer.from_pretrained(pretrained_model_name_or_path = 
-                                        r'F:\mycodes\wordev\model\bert-base-chinese')  
+                                        r'.\model\bert-base-chinese')  
 # 如果没有路径会自动下载模型from the following websites，但是速度是个问题
 model = BertModel.from_pretrained(pretrained_model_name_or_path = 
-                                r'F:\mycodes\wordev\model\bert-base-chinese')  
+                                r'.\model\bert-base-chinese')  
 # "https://huggingface.co/google-bert/bert-base-chinese" 
 # "https://huggingface.co/models"
 

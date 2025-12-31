@@ -1,10 +1,20 @@
+#  @file: bertwwm.py
+#  @version：1.0.5
+#  @brief: # Embedding wordsets with BERT-wwm-ext
+#  @creation date: 2025.08.28
+#  @last modified date: 2025.10.12 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
+
 from transformers import BertTokenizer, BertModel
 import jieba
 import torch
 
 # 加载模型和工具
-# model_name = r'F:\mycodes\wordev\model\chinese-wwm-pytorch'   # 基础版
-model_name = r'F:\mycodes\wordev\model\chinese-bert-wwm-ext'   # 哈工大中文bert模型扩展版
+# model_name = r'.\model\chinese-wwm-pytorch'   # 基础版
+model_name = r'.\model\chinese-bert-wwm-ext'   # 哈工大中文bert模型扩展版
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertModel.from_pretrained(model_name)
 

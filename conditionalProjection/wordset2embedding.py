@@ -1,5 +1,12 @@
-# embedding a word set in the .csv file by means of BERT-Chinese-WWM
-# and saving the embedding into a file
+#  @file: wordset2embedding.py
+#  @version：1.0.0
+#  @brief: embedding a word set in the .csv file by means of BERT-Chinese-WWM
+#          and saving the embedding into a file
+#  @creation date: 2025.06.28
+#  @last modified date: 2025.8.18 
+#  @authors: S. Yang
+#  @copyright: © 2025 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
 
 import numpy as np
 from transformers import BertTokenizer, BertModel
