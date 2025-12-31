@@ -1,0 +1,2 @@
+bert-base-chinese is too big to upload to github,  but you can get the model from the website:
+    https://huggingface.co/hfl/chinese-bert-wwm-ext/tree/main
