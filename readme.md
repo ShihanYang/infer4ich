@@ -36,10 +36,10 @@ python classifying.py
 python classifying2.py
 ```
 
-- Get simple assesment values by:
+- Get simple assessment values by:
 
 ```bash
-paython assesment.py
+paython assessment.py
 ```
 
 ### Notes
