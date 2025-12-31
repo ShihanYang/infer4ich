@@ -36,6 +36,12 @@ python classifying.py
 python classifying2.py
 ```
 
+- Get simple assesment values by:
+
+```bash
+paython assesment.py
+```
+
 ### Notes
 
 - The project is still in the development phase, and we will continuously report on our latest research findings.

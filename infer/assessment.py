@@ -1,7 +1,7 @@
 #  @file: assessment.py
 #  @version：1.0.0
-#  @brief: 
-#  @creation date: 2025.08.28
+#  @brief: Evaluation
+#  @creation date: 2025.10.28
 #  @last modified date: 2025.11.28 
 #  @authors: S. Yang
 #  @copyright: © 2025 S. Yang. All rights reserved.
@@ -40,100 +40,35 @@ for w in type_count.keys():
 def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
+
 # Evaluation
-threshold = 0.89  # sensitivty threshold 
-def generate_number(base):  # 大于base阈值
-    if np.random.rand() <= threshold:  
-        return base + np.random.uniform(0, 3-base)
-    else:                       
-        return np.random.uniform(0, base-0.01) 
 
-def generate_number_2(base):  # 小于base阈值
-    if np.random.rand() <= threshold:  
-        return np.random.uniform(0, 1.25-base)
-    else:                       
-        return base + np.random.uniform(0, base-0.01) 
-
-def generate_number_3(base1, base2):  # 介于base1和base2之间
-    if np.random.rand() <= threshold:  
-        return np.random.uniform(base1, base2)
-    else:                       
-        return np.random.choice([np.random.uniform(0, base1), np.random.uniform(base2, 3)],size=1)
-
-def assessmentValue(genre):
-    value = 0
-    mean = 1.05
-    std = 0.6
-    lower_bound = 0  # 0
-    upper_bound = 3.2  # 3.2
-    q1 = 0.9
-    q3 = 1.25
-    a = (lower_bound - mean) / std
-    b = (upper_bound - mean) / std
-    size = 1
-    value = truncnorm.rvs(a, b, loc=mean, scale=std, size=size)
-    if genre == '政府主导':
-        value = generate_number(q3)
-    elif genre == '社区主导':
-        value = generate_number_2(q1)
-    elif genre == '其他类型':
-        value = generate_number_3(q1, q3)
-    return value
-
-def decision(value):
-    strValue = ''
-    if value >= 1.25:
-        strValue = '政府主导'
-    elif value <= 0.9:
-        strValue = '社区主导'
+def type2num(str):
+    if str == "政府主导":
+        return 0        
+    elif str == "社区主导":        
+        return 1
     else:
-        strValue = '其他类型'
-    return strValue
+        return 2
 
+def num2type(num):
+    if num == 0:
+        return "政府主导"
+    elif num == 1:
+        return "社区主导"
+    else:
+        return "其他类型"
 
-filename = dir + r'assesmentdata+.csv'  # assesmentdata++ is the balanced dataset
-flag = '+'  # plus + switcher  # TODO: 切换计算方法以记录不同的数据值
+filename = dir + r'assesmentdata+.csv'  # change for balanced or unbalanced assessment dataset
+
 assesslist = list()
 assessvalue = list()
-with open(filename, 'w', encoding="UTF-8") as wf:
-    if flag == '':
-        wf.write("itemID, type, scores, prediction \n")
-        for index, value in enumerate(govern_types):
-            assess = assessmentValue(value)
-            result = decision(assess)
-            wf.write(str(index) + "," + 
-                    value + "," + 
-                    str(assess)+ "," + 
-                    result + '\n')
-            assesslist.append((value, result))
-            assessvalue.append(assess)
-    if flag == '+':
-        wf.write("itemID, type, w1, w2, w3, w4, scores, prediction \n")
-        for index, value in enumerate(govern_types):
-            assess = assessmentValue(value) * np.exp(np.random.normal(0, 0.1))  # 加上噪声
-            result = decision(assess)
-            wf.write(str(index) + "," + 
-                    value + "," + 
-                    str(assess * weights[0])+ "," + 
-                    str(assess * weights[1])+ "," + 
-                    str(assess * weights[2])+ "," + 
-                    str(assess * weights[3])+ "," + 
-                    str(assess)+ "," + 
-                    result + '\n')
-            assesslist.append((value, result))
-            # assessvalue.append(list(sigmoid(assess * np.array(weights))) + [assess])
-            noise0 = np.random.normal(0, 0.1, size=len(weights))
-            noise = np.random.normal(0, scale=0.1, size=len(weights)) + noise0
-            assessvalue.append([assess * weights[0] + noise[0]] +
-                               [assess * weights[1] + noise[1]] +
-                               [assess * weights[2] + noise[2]] +
-                               [assess * weights[3] + noise[3]] +
-                               [assess])
-
-print("samples:", len(assesslist))
-print('Total data:', len(assesslist),'\n')
-# 保存数据用来KNN分类
-np.savetxt(dir + r'assesmentvalue+.csv', assessvalue, fmt='%.18f', delimiter=',')
+with open(filename, "r", encoding="UTF-8") as af:
+    lines = af.readlines()
+    for l in lines[1:]:   # ignore the title line
+        item = l.split(',')
+        assesslist.append(type2num(item[1]))
+        assessvalue.append(type2num(item[-1]))
 
 ####################################
 # METRICS REPORTS
