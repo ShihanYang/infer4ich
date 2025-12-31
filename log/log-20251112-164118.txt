@@ -91,3 +91,52 @@ projecting ...
 Culture difference between BAI and HANI (weighted): 0.7247605991110564
 0.7247605991110564
 
+
+### on unbalanced dataset
+PS E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/assessment.py
+All samples: 188
+All types of government: {'政府主导', '社区主导', '其他类型'}
+政府主导 : 30
+社区主导 : 113
+其他类型 : 45
+samples: 188 
+
+METRICS REPORTS @ 2025-10-28 16:28:04.105181
+              precision    recall  f1-score   support
+
+        其他类型     0.9348    0.9556    0.9451        45
+        政府主导     0.8125    0.8667    0.8387        30
+        社区主导     0.9545    0.9292    0.9417       113
+
+    accuracy                         0.9255       188
+   macro avg     0.9006    0.9171    0.9085       188
+weighted avg     0.9271    0.9255    0.9261       188
+
+True value: 174
+Total: 188
+accuracy = 0.925531914893617
+
+
+### on balanced dataset
+PS E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/assessment.py
+All samples: 112
+All types of government: {'政府主导', '社区主导', '其他类型'}
+政府主导 : 30
+社区主导 : 37
+其他类型 : 45
+samples: 112 
+
+METRICS REPORTS @ 2025-10-28 16:26:41.874905
+              precision    recall  f1-score   support
+
+        其他类型     0.9348    0.9556    0.9451        45
+        政府主导     0.8710    0.9000    0.8852        30
+        社区主导     0.9143    0.8649    0.8889        37
+
+    accuracy                         0.9107       112
+   macro avg     0.9067    0.9068    0.9064       112
+weighted avg     0.9109    0.9107    0.9105       112
+
+True value: 102
+Total: 112
+accuracy = 0.9107142857142857
