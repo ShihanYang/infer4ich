@@ -1,9 +1,9 @@
 #  @file: wordset2embedding.py
-#  @version：1.0.0
+#  @version：1.0.5
 #  @brief: embedding a word set in the .csv file by means of BERT-Chinese-WWM
 #          and saving the embedding into a file
 #  @creation date: 2025.06.28
-#  @last modified date: 2025.8.18 
+#  @last modified date: 2026.4.22 
 #  @authors: S. Yang
 #  @copyright: © 2025 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license. 
@@ -15,16 +15,16 @@ from transformers import BertTokenizer, BertModel
 from tqdm import tqdm
 
 # 加载模型和工具
-# model_name = r'F:\mycodes\wordev\model\chinese-wwm-pytorch'   # 基础版
-model_name = r'F:\mycodes\wordev\model\chinese-bert-wwm-ext'   # 哈工大中文bert模型扩展版
+# model_name = r'.\model\chinese-wwm-pytorch'   # 基础版
+model_name = r'.\model\chinese-bert-wwm-ext'   # 哈工大中文bert模型扩展版
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertModel.from_pretrained(model_name)
 
 # 从文件输入单词集合
 wordset = list()
 wordset_vect = list()
-path = r'F:/mycodes/wordev/'
-fileName = path + r'data/bai/independ_interdepend.csv'
+path = r'./'
+fileName = path + r'data/lisu/independ_interdepend.csv'  # change to 'bai'/'hani'/'lisu'
 with open(fileName, 'r', encoding='UTF-8') as wsf:
     lines = wsf.readlines()
     pbar = tqdm(total = 100)  # 进度条

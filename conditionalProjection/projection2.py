@@ -1,9 +1,9 @@
 #  @file: projection2.py
-#  @version：1.0.5
+#  @version：1.0.9
 #  @brief: read wordset vectors and Disciplinary Vocabulary Vector Spaces from .csv file
 #          and computing the projection of the wordset vectors onto the disciplinary space.
 #  @creation date: 2025.08.28
-#  @last modified date: 2025.11.13 
+#  @last modified date: 2026.4.22 
 #  @authors: S. Yang
 #  @copyright: © 2025 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license.

@@ -1,8 +1,8 @@
 #  @file: similarity.py
-#  @version：1.0.0
+#  @version：1.0.5
 #  @brief: computing the similarity between vectors
 #  @creation date: 2025.06.28
-#  @last modified date: 2025.10.10 
+#  @last modified date: 2026.4.22 
 #  @authors: S. Yang
 #  @copyright: © 2025 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license.

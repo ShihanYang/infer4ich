@@ -1,5 +1,5 @@
 #  @file: culturaldifference.py
-#  @version：1.0.5
+#  @version：1.0.8
 #  @brief: # This file is used to calculate the cultural difference between two groups of people 
 #            by using the similarity of their intangible cultural heritage features.
 #  @last modified date: 2025.10.12 
@@ -13,7 +13,11 @@ from projcondSimilarity import *
 
 one = 'bai'
 two = 'hani'
+three = 'lisu'
 
-simi = culture_difference(one, two)
-
-print(simi)
+simi12 = culture_difference(one, two)
+print(simi12)
+simi13 = culture_difference(one, three)
+print(simi13)
+simi23 = culture_difference(two, three)
+print(simi23)

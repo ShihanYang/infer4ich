@@ -1,5 +1,5 @@
 #  @file: dimensionalSimilarity.py
-#  @version：1.0.5
+#  @version：1.0.8
 #  @brief: # Computes the psychological similarity between two individuals based on their psychological dimensions.
 #  @creation date: 2025.08.28
 #  @last modified date: 2025.10.12 
@@ -12,7 +12,13 @@ from projcondSimilarity import *
 
 one = 'bai'
 two = 'hani'
+three = 'lisu'
 
-simi = psychology_similarity(one, two)
+simi12 = psychology_similarity(one, two)
+print(simi12)
 
-print(simi)
+simi13 = psychology_similarity(one, three)
+print(simi13)
+
+simi23 = psychology_similarity(two, three)
+print(simi23)
