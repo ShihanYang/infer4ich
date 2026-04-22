@@ -9,7 +9,7 @@
 
 
 
-from projcondSimilarity import *
+from conditionalProjection.projcondSimilarity import *
 
 one = 'bai'
 two = 'hani'

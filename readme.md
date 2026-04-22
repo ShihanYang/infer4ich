@@ -25,10 +25,16 @@
 python projcondSimilarity.py
 ```
 
-- Perform pyschology dimension calculation using the command below:
+- Perform pyschology dimension similarity calculation using the command below:
 
 ```bash
 python dimensionalSimilarity.py
+```
+
+- Perform cultural similarity calculation between One and anther ethnic groups using the command below:
+
+```bash
+python culturalSimilarity.py
 ```
 
 - You can perform classification tasks by executing the command below:

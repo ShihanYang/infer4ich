@@ -1,7 +1,7 @@
-#  @file: my_module.py
+#  @file: ICH_conditional_similarity_module.py
 #  @version：1.1.0
 #  @brief: Compute conditional similarity of two projections onto multi-spaces
-#    - two projection vector sets are saved in the .csv.vec files
+#    - two projection vector sets are saved in the .csv files
 #    - multi-spaces are already weighted by AHP method
 #    - there are many methods to compute the similarity of two vector sets
 #  @creation date: 2025.05.28
@@ -12,22 +12,52 @@
 
 import numpy as np
 from datetime import datetime as dt
+import time
 from projection2 import loadEmbedding, project_vector_set, score
 from yaspin import yaspin, Spinner
+import sys
+
+class Coffee:  # make a class to store the output information of each print statement
+    def __init__(self, log_file_name):
+        self.file = open(log_file_name, 'w')
+        self.stdout = sys.stdout
+
+    def write(self, message):
+        self.file.write(message)
+        self.stdout.write(message)
+
+    def flush(self):
+        self.file.flush()
+        self.stdout.flush()
+
+    def close(self):
+        self.file.close()
+        self.stdout.close()
+
+    def closed(self):
+        return self.stdout.closed()
+
+    def isatty(self):
+        return self.stdout.isatty()
 
 
-# weights for each space (history, aesthetic, semiology, sociology)  
+#####################################################################
+# weights for each space (history, aesthetic, semiology, sociology)
+# The weights are obtained by AHP method, which is a multi-criteria decision-making method.
 # TODO: These weights can be changed when getting more evidence
-on_independ_interdepend = (0.2949, 0.0475, 0.1471, 0.5104)
-on_individ_collect = (0.2953, 0.0509, 0.1311, 0.5227)
-on_tight_loose = (0.2760, 0.1001, 0.0917, 0.5322)
-on_relmobility = (0.5573, 0.0485, 0.1415, 0.2527)
+#####################################################################
+
+on_independ_interdepend = (0.5150,0.1379,0.0392,0.3079)  # 四本体对第一个维度的权重
+on_individ_collect = (0.4393,0.0508,0.1247,0.3852)  # 四本体对第二个维度的权重
+on_tight_loose = (0.3425,0.0901,0.0574,0.5101)  # 四本体对第三个维度的权重
+on_relmobility = (0.5672,0.0461,0.1323,0.2544)  # 四本体对第四个维度的权重
 weights = {
-    'independ_interdepend' : (0.2949, 0.0475, 0.1471, 0.5104),
-    'individ_collect' : (0.2953, 0.0509, 0.1311, 0.5227),
-    'tight_loose' : (0.2760, 0.1001, 0.0917, 0.5322),
-    'relmobility' : (0.5573, 0.0485, 0.1415, 0.2527)
+    'independ_interdepend' : (0.5150,0.1379,0.0392,0.3079),
+    'individ_collect' : (0.4393,0.0508,0.1247,0.3852),
+    'tight_loose' : (0.3425,0.0901,0.0574,0.5101),
+    'relmobility' : (0.5672,0.0461,0.1323,0.2544)
 }
+total_weight = (0.4347,0.0701,0.0986,0.3966)  # 历史、美学、语义学、社会学对文化差异影响的总权重
 on_spaces = [(x+y+z+r)/4 for x,y,z,r in zip(on_independ_interdepend, on_individ_collect, on_tight_loose, on_relmobility)]
 
 
@@ -40,7 +70,7 @@ def wasserstein_distance(X, Y):
     '''
     X, Y: ndarray 数据类型，二维矩阵，它们的行数不同，列数相同
     '''
-    import ot  # Python Optimal Transport库
+    import ot  # Python Optimal Transport库, pip install POT
     
     # 计算成本矩阵 (通常使用欧氏距离)
     M = ot.dist(X, Y)
@@ -87,7 +117,7 @@ def normalized_distance(u, v):
 def maxeigen_distance(u, v):
     _, S1, _ = np.linalg.svd(u)
     _, S2, _ = np.linalg.svd(v)
-    dist = max(S1) - max(S2)  
+    dist = np.abs(max(S1) - max(S2))  
     return dist
 
 def sigmoid(value):
@@ -98,7 +128,82 @@ def sigmoid(value):
 # 根据距离来计算两组向量直接的相似性
 #################################################################
 def projections_similarity(distance):
+    # conditiional similarity = 1 - distance
     return 1 - sigmoid(distance)
+
+#################################################################
+# 根据四个本体特征的相似性来计算总的文化差异
+#################################################################
+def culture_difference(one, two):
+    '''
+    one: 存放第一个ICH project对象的 .csv.vec embedding files的目录
+    two: 存放另一个ICH project对象的 .csv.vec embedding files的目录
+    return: Weighted similarity 
+    idea: one and two is projected onto four spaces, and their similarity 
+          is computed on 4 spaces, then weighted by the weights vector.
+    '''
+    print(f'@ {dt.now()} - pyschology dimension similarity between {one.upper()} and {two.upper()}')
+    
+    # 1. load spaces embeddings
+    spaces = dict()
+    path = r"e:/Desktop/非遗/experiment/wordev/data/"    
+    space_files = [
+        "History.csv.vec",
+        "Aesthetic.csv.vec",
+        "Semiology.csv.vec",
+        "Sociology.csv.vec"    
+    ]
+    print("loading space embeddings ...")
+    for sf in space_files:
+        key = sf.split('.')[0].lower()
+        spaces[key] = loadEmbedding(path + sf)
+    print('& Loaded.')
+        
+    # 2. load vector embeddings
+    vsembeddings = dict()
+    vsembedding_files = [f'{one}-syj.csv.vec', f'{two}-jzsl.csv.vec']
+    vse_name = list() 
+    print("loading wordset embeddings ...")
+    for wsf in vsembedding_files:
+        key = wsf.split('.')[0].lower()
+        vse_name.append(key)
+        vsembeddings[key] = loadEmbedding(path + wsf)
+    print("& Loaded.")
+    
+    # 3. compute projections onto each space
+    projections = dict()
+    spacename = ['history', 'aesthetic', 'semiology', 'sociology'] 
+    lines = ['--', '\\\\', '||', '//']  # for long performing animation effects
+    with yaspin(Spinner(lines, interval=8), 
+                text="  is processing", 
+                ellipsis='...', 
+                color="blue", 
+                side='right', 
+                timer=True) as spinner:
+        spinner.write("projecting ... ")
+        # every one is projected onto each space
+        for space in spacename:
+            for vse in vse_name:
+                projections[(vse, space)] = project_vector_set(vsembeddings[vse], spaces[space]) 
+        spinner.ok("& OK: Projected.")
+
+    # 4. compute the distance of pairwise projection on each space
+    distanceOn = dict()  # distance between two sets of projections in each space 
+    for space in spacename:
+        x = projections[(vse_name[0], space)]
+        y = projections[(vse_name[1], space)]
+        dist = wasserstein_distance(x, y)
+        print('  their distance in', space, ':', dist)
+        distanceOn[space] = dist
+    print("& Computed distances.")
+
+    # 5. weighted the difference, conditional similarity about culture difference
+    diffference = np.array(total_weight) @ np.array(list(distanceOn.values()))
+    print(f'Culture difference between {one.upper()} and {two.upper()} (weighted):', 
+          diffference)
+
+    return diffference
+
 
 #################################################################
 # 在四个心理认知维度上分别计算条件相似性
@@ -106,7 +211,7 @@ def projections_similarity(distance):
 def psychology_similarity(one, two):
     '''
     one: 存放第一个对象的四个认知维度的 .csv.vec embedding files的目录
-    two: 存放第一个对象的四个认知维度的 .csv.vec embedding files的目录
+    two: 存放另一个对象的四个认知维度的 .csv.vec embedding files的目录
     return: Weighted four conditional similarity 
             on all spaces for each dimension of psychology
     '''
@@ -116,7 +221,7 @@ def psychology_similarity(one, two):
     
     # 1. load spaces embeddings
     spaces = dict()
-    path = r"F:/mycodes/wordev/data/"    
+    path = r"e:/Desktop/非遗/experiment/wordev/data/"    
     space_files = [
         "History.csv.vec",
         "Aesthetic.csv.vec",
@@ -199,17 +304,19 @@ def psychology_similarity(one, two):
     
 
 if __name__ == '__main__':
-    
+    sys.stdout = Coffee(f'log-{dt.now().strftime("%Y%m%d-%H%M%S")}.txt')  # redirect stdout to log file
+    start_time = time.time()
+
     ###############################################################
     # Perform the similarity between ICH projects one and another
     ###############################################################
-    one = 'bai-syj'  # change data directory, 'lisu-dgj' or 'hani-jzsl'
-    another = 'lisu-dgj'
-    print(f'@ {dt.now()} - similarity between {one.upper()} and {another.upper()}')
+    one = 'bai-syj'   # change data directory, 'lisu-dgj' or 'hani-jzsl'
+    another = 'hani-jzsl'
+    print(f'@ {dt.now().strftime("%Y%m%d-%H:%M:%S")}\nComputing similarity between {one.upper()} and {another.upper()}')
     
     # 1. load spaces embeddings
     spaces = dict()
-    path = r"F:/mycodes/wordev/data/"    
+    path = r"e:/Desktop/非遗/experiment/wordev/data/"    # TODO: change the path to your own
     space_files = [
         "History.csv.vec",
         "Aesthetic.csv.vec",
@@ -260,15 +367,15 @@ if __name__ == '__main__':
         # dist = hausdorff_distance(x, y)
         # dist = normalized_distance(x, y)  # normalized distance
         dist = maxeigen_distance(x, y)
-        print('  their distance in the', space, ':', dist)
+        print('  distance in the', space, ':', dist)
         distanceOn[space] = dist
     
     # 5. compute the similarity of pairwise projection 
-    # 5.5 Perform distance transformation into [-3, 3] from [0, 1], y = 6x - 3
+    # 5.5 Perform distance transformation into [-3, 3] from [0, 1], y = 6x - 3  
     exptotal = sum(np.exp(list(distanceOn.values())))
     for key in distanceOn.keys():
-        distanceOn[key] = np.exp(distanceOn[key]) / exptotal  # 因为可能含有负数，用Softmax函数法变换成随机向量，pi = exp(pi) / sum(exp(pi))
-        distanceOn[key] = 6 * distanceOn[key] - 2.9
+        distanceOn[key] = np.exp(distanceOn[key]) / exptotal  
+        distanceOn[key] = 6 * distanceOn[key] - 2.99
         
     similarityOn = dict()
     for dist in distanceOn.keys():
@@ -282,5 +389,9 @@ if __name__ == '__main__':
     weighted_similarity = np.dot(on_spaces, list(similarityOn.values()))
     print('Weighted similarity on all spaces:', weighted_similarity)
     
-    print(f'&@ {dt.now()} DONE.')
+    print(r'&@ ALL DONE.')
+    end_time = time.time()
+    print(f'Total costing time: {end_time - start_time:.2f} seconds.')
     
+    sys.stdout.flush()  # flush the log file
+    sys.stdout = sys.__stdout__  # restore the original stdout

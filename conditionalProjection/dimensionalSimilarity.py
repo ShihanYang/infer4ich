@@ -8,7 +8,7 @@
 #  @license: This program is licensed under the MIT license. 
 
 
-from projcondSimilarity import *
+from conditionalProjection.projcondSimilarity import *
 
 one = 'bai'
 two = 'hani'
