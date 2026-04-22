@@ -19,7 +19,7 @@ Weighted similarity on all spaces: 0.8050014624371611
 Total costing time: 3185.00 seconds.
 
 
-E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/wordev/dimensionalSimilarity.py
+python.exe dimensionalSimilarity.py
 @ 2025-11-12 18:57:53.072349 - pyschology dimension similarity between BAI and HANI
 loading space embeddings ...
 & Loaded.
@@ -75,7 +75,7 @@ Weighted dimensional similarity on all spaces: 0.7996864118882742
 'relmobility': 0.7996864118882742}
 
 
-PS E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/wordev/culturaldifference.py
+PS python.exe culturaldifference.py
 @ 2025-11-20 20:04:47.944827 - pyschology dimension similarity between BAI and HANI
 loading space embeddings ...
 & Loaded.
