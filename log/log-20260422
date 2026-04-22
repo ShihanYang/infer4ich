@@ -1,0 +1,22 @@
+PS python.exe d:/gits/infer4ich/conditionalProjection/projcondSimilarity.py
+@ 20260422-18:41:21
+Computing similarity between BAI-SYJ and LISU-DGJ
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ... 
+  is processing & OK: Projected. (0:36:47.72)
+  distance in the history : 2.032838755818826
+  distance in the aesthetic : 2.086242731318997
+  distance in the semiology : 2.0377312640497642
+  distance in the sociology : 2.079088130651771
+Similarity on each space:
+  similarity in the history : 0.8218765977927274
+  similarity in the aesthetic : 0.8098407499649332
+  similarity in the semiology : 0.8208252672449213
+  similarity in the sociology : 0.8115268336592766
+weights vector : [0.4660000000000001, 0.08122499999999999, 0.0884, 0.3644]
+Weighted similarity on all spaces: 0.8170551412972041
+&@ ALL DONE.
+Total costing time: 2273.27 seconds.
