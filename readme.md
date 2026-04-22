@@ -22,7 +22,7 @@
 - Perform projection and similarity calculation using the command below:
 
 ```bash
-python projection2.py
+python projcondSimilarity.py
 ```
 
 - You can perform classification tasks by executing the command below:
