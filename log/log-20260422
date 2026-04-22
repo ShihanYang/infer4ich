@@ -1,4 +1,4 @@
-PS python.exe d:/gits/infer4ich/conditionalProjection/projcondSimilarity.py
+PS python.exe /infer4ich/conditionalProjection/projcondSimilarity.py
 @ 20260422-18:41:21
 Computing similarity between BAI-SYJ and LISU-DGJ
 loading space embeddings ...
@@ -20,3 +20,157 @@ weights vector : [0.4660000000000001, 0.08122499999999999, 0.0884, 0.3644]
 Weighted similarity on all spaces: 0.8170551412972041
 &@ ALL DONE.
 Total costing time: 2273.27 seconds.
+
+PS python.exe /infer4ich/conditionalProjection/projcondSimilarity.py
+@ 20260422-19:39:25
+Computing similarity between HANI-JZSL and LISU-DGJ
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ... 
+  is processing & OK: Projected. (0:52:44.33)
+  distance in the history : 1.9321726368844416
+  distance in the aesthetic : 1.9495669728581237
+  distance in the semiology : 1.8181425249292271
+  distance in the sociology : 1.9716975548831428
+Similarity on each space:
+  similarity in the history : 0.8132167474306786
+  similarity in the aesthetic : 0.8091345567633977
+  similarity in the semiology : 0.8368185548991653
+  similarity in the sociology : 0.8037359948374103
+weights vector : [0.4660000000000001, 0.08122499999999999, 0.0884, 0.3644]
+Weighted similarity on all spaces: 0.8115371154476418
+&@ ALL DONE.
+Total costing time: 3231.39 seconds.
+
+====================================
+
+PS python.exe /infer4ich/conditionalProjection/dimensionalSimilarity.py
+@ 2026-04-22 20:41:05.360857 - pyschology dimension similarity between BAI and LISU
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ... 
+  is processing & OK: Projected. (0:38:44.22)
+  their distance independ_interdepend in history : 3.109814421359153
+  their distance individ_collect in history : 5.003659058827413
+  their distance tight_loose in history : 6.278716990826545
+  their distance relmobility in history : 1.1752300783475724
+  their distance independ_interdepend in aesthetic : 3.147049617687532
+  their distance individ_collect in aesthetic : 5.0230440151139035
+  their distance tight_loose in aesthetic : 6.310685915184691
+  their distance relmobility in aesthetic : 1.188145031086567
+  their distance independ_interdepend in semiology : 3.047002453664631
+  their distance individ_collect in semiology : 4.855732103777755
+  their distance tight_loose in semiology : 6.098445304637259
+  their distance relmobility in semiology : 1.1215088524157801
+  their distance independ_interdepend in sociology : 3.188353655730582
+  their distance individ_collect in sociology : 5.0849030836457345
+  their distance tight_loose in sociology : 6.380992317841272
+  their distance relmobility in sociology : 1.1990344173144702
+Dimensional similarity on each space:
+  similarity independ_interdepend in history : 0.8056074570058323
+  similarity independ_interdepend in aesthetic : 0.796674052271131
+  similarity independ_interdepend in semiology : 0.8193152112392397
+  similarity independ_interdepend in sociology : 0.7859919272312009
+weights vector in independ_interdepend (0.515, 0.1379, 0.0392, 0.3079)
+Weighted dimensional similarity on all spaces: 0.7988732628412576
+  similarity individ_collect in history : 0.8001782965714083
+  similarity individ_collect in aesthetic : 0.7954021572715759
+  similarity individ_collect in semiology : 0.8313743831265576
+  similarity individ_collect in sociology : 0.7789211051128326
+weights vector in individ_collect (0.4393, 0.0508, 0.1247, 0.3852)
+Weighted dimensional similarity on all spaces: 0.7956375505385606
+  similarity tight_loose in history : 0.8006957502239436
+  similarity tight_loose in aesthetic : 0.792755660033601
+  similarity tight_loose in semiology : 0.8374840564493611
+  similarity tight_loose in sociology : 0.7734874035468583
+weights vector in tight_loose (0.3425, 0.0901, 0.0574, 0.5101)
+Weighted dimensional similarity on all spaces: 0.7882930888101738
+  similarity relmobility in history : 0.801273455608672
+  similarity relmobility in aesthetic : 0.7981384536286975
+  similarity relmobility in semiology : 0.8135171489362508
+  similarity relmobility in sociology : 0.7954344027758827
+weights vector in relmobility (0.5672, 0.0461, 0.1323, 0.2544)
+Weighted dimensional similarity on all spaces: 0.8012633176039723
+&@ 2026-04-22 21:20:54.010544 DONE.
+{'independ_interdepend': 0.7988732628412576, 'individ_collect': 0.7956375505385606, 'tight_loose': 0.7882930888101738, 'relmobility': 0.8012633176039723}
+
+PS python.exe /infer4ich/conditionalProjection/dimensionalSimilarity.py
+@ 2026-04-22 21:22:00.040826 - pyschology dimension similarity between HANI and LISU
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ... 
+  is processing & OK: Projected. (0:40:06.68)
+  their distance independ_interdepend in history : 2.8287511172646296
+  their distance individ_collect in history : 4.838790879854578
+  their distance tight_loose in history : 6.2289936734721145
+  their distance relmobility in history : 0.7436084007326094
+  their distance independ_interdepend in aesthetic : 2.8140819418631113
+  their distance individ_collect in aesthetic : 4.8691501197440505
+  their distance tight_loose in aesthetic : 6.25419100281865
+  their distance relmobility in aesthetic : 0.7449007046158673
+  their distance independ_interdepend in semiology : 2.754862469329128
+  their distance individ_collect in semiology : 4.684390903462317
+  their distance tight_loose in semiology : 6.06571691194962
+  their distance relmobility in semiology : 0.693520411131995
+  their distance independ_interdepend in sociology : 2.8725387638454034
+  their distance individ_collect in sociology : 4.923741424654317
+  their distance tight_loose in sociology : 6.334860275400109
+  their distance relmobility in sociology : 0.7226086193746424
+Dimensional similarity on each space:
+  similarity independ_interdepend in history : 0.7997056391374835
+  similarity independ_interdepend in aesthetic : 0.8032172883858548
+  similarity independ_interdepend in semiology : 0.816438241673296
+  similarity independ_interdepend in sociology : 0.7886186690787886
+weights vector in independ_interdepend (0.515, 0.1379, 0.0392, 0.3079)
+Weighted dimensional similarity on all spaces: 0.7974321355071656
+  similarity individ_collect in history : 0.800768432705069
+  similarity individ_collect in aesthetic : 0.7932441810071751
+  similarity individ_collect in semiology : 0.8329920886755336
+  similarity individ_collect in sociology : 0.7785644879618951
+weights vector in individ_collect (0.4393, 0.0508, 0.1247, 0.3852)
+Weighted dimensional similarity on all spaces: 0.7958515311032623
+  similarity tight_loose in history : 0.8013794201623636
+  similarity tight_loose in aesthetic : 0.7951956063296066
+  similarity tight_loose in semiology : 0.835024839797188
+  similarity tight_loose in sociology : 0.7732689692590513
+weights vector in tight_loose (0.3425, 0.0901, 0.0574, 0.5101)
+Weighted dimensional similarity on all spaces: 0.7884945025593078
+  similarity relmobility in history : 0.7980137634914897
+  similarity relmobility in aesthetic : 0.7976954842481013
+  similarity relmobility in semiology : 0.8097646258443324
+  similarity relmobility in sociology : 0.8030772436404652
+weights vector in relmobility (0.5672, 0.0461, 0.1323, 0.2544)
+Weighted dimensional similarity on all spaces: 0.80084187925755
+&@ 2026-04-22 22:03:10.791823 DONE.
+{'independ_interdepend': 0.7974321355071656, 'individ_collect': 0.7958515311032623, 'tight_loose': 0.7884945025593078, 'relmobility': 0.80084187925755}
+
+====================================
+
+PS python.exe /infer4ich/conditionalProjection/culturaldifference.py
+@ 2026-04-22 22:21:59.000128 - cultural similarity between BAI and LISU
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ... 
+  is processing & OK: Projected. (0:33:32.57)
+  their distance in history : 1.1553945098688998
+  their distance in aesthetic : 1.1441363903975514
+  their distance in semiology : 1.2112023503474805
+  their distance in sociology : 1.1320133258233123
+& Computed distances.
+Culture difference between BAI-SYJ and LISU-DGJ (weighted): 1.1508349911726663
+
+PS python.exe /infer4ich/conditionalProjection/culturaldifference.py
+@ 2026-04-22 22:57:20.137604 - cultural similarity between HANI and LISU
+loading space embeddings ...
+& Loaded.
+loading wordset embeddings ...
+& Loaded.
+projecting ... 

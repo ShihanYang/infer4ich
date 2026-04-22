@@ -9,17 +9,17 @@
 
 
 
-from conditionalProjection.projcondSimilarity import *
+from projcondSimilarity import *
 
-one = 'bai'
-two = 'hani'
-three = 'lisu'
+one = 'bai'  # bai-syj 
+two = 'hani'  # hani-jzsl
+three = 'lisu'  # lisu-dgj
 
-simi12 = culture_difference(one, two)
+simi12 = culture_difference(one+'-syj', two+'-jzsl')
 print(simi12)
 
-simi13 = culture_difference(one, three)
+simi13 = culture_difference(one+'-syj', three+'-dgj')
 print(simi13)
 
-simi23 = culture_difference(two, three)
+simi23 = culture_difference(two+'-jzsl', three+'-dgj')
 print(simi23)

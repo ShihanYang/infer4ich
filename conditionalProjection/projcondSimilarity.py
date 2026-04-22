@@ -145,11 +145,13 @@ def culture_difference(one, two):
     idea: one and two is projected onto four spaces, and their similarity 
           is computed on 4 spaces, then weighted by the weights vector.
     '''
-    print(f'@ {dt.now()} - pyschology dimension similarity between {one.upper()} and {two.upper()}')
+    name_one = one.split('-')[0]
+    name_two = two.split('-')[0]
+    print(f'@ {dt.now()} - cultural similarity between {name_one.upper()} and {name_two.upper()}')
     
     # 1. load spaces embeddings
     spaces = dict()
-    path = r"e:/Desktop/非遗/experiment/wordev/data/"    
+    path = pwd / "data"    
     space_files = [
         "History.csv.vec",
         "Aesthetic.csv.vec",
@@ -159,18 +161,18 @@ def culture_difference(one, two):
     print("loading space embeddings ...")
     for sf in space_files:
         key = sf.split('.')[0].lower()
-        spaces[key] = loadEmbedding(path + sf)
+        spaces[key] = loadEmbedding(str(path) +'/'+ sf)
     print('& Loaded.')
         
     # 2. load vector embeddings
     vsembeddings = dict()
-    vsembedding_files = [f'{one}-syj.csv.vec', f'{two}-jzsl.csv.vec']
+    vsembedding_files = [f'{one}.csv.vec', f'{two}.csv.vec']
     vse_name = list() 
     print("loading wordset embeddings ...")
     for wsf in vsembedding_files:
         key = wsf.split('.')[0].lower()
         vse_name.append(key)
-        vsembeddings[key] = loadEmbedding(path + wsf)
+        vsembeddings[key] = loadEmbedding(str(path) +'/'+ wsf)
     print("& Loaded.")
     
     # 3. compute projections onto each space
@@ -224,7 +226,7 @@ def psychology_similarity(one, two):
     
     # 1. load spaces embeddings
     spaces = dict()
-    path = r"e:/Desktop/非遗/experiment/wordev/data/"    
+    path = pwd / "data"  
     space_files = [
         "History.csv.vec",
         "Aesthetic.csv.vec",
@@ -234,7 +236,7 @@ def psychology_similarity(one, two):
     print("loading space embeddings ...")
     for sf in space_files:
         key = sf.split('.')[0].lower()
-        spaces[key] = loadEmbedding(path + sf)
+        spaces[key] = loadEmbedding(str(path) +'/'+ sf)
     print('& Loaded.')
         
     # 2. load vector sets embeddings
@@ -248,7 +250,7 @@ def psychology_similarity(one, two):
     for wsf in vsembedding_files:
         key = wsf.split('.')[0].lower()
         vse_name.append(key)
-        vsembeddings[key] = loadEmbedding(path + wsf)
+        vsembeddings[key] = loadEmbedding(str(path) +'/'+ wsf)
     print("& Loaded.")
     
     # 3. compute projections onto each space
