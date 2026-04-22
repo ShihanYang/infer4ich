@@ -19,10 +19,16 @@
 - Python 3.9 or higher is required.
 - Prepare your directory and data, like "./data/hani/---.csv", and ensure the model is correctly downloaded into the directory "./model/".
 - Codes in directory 'conditionalProjection' is used for Chinese embedding and projection calculation (Please ensure that you have configured the correct directory paths for your datasets and output vectors).
-- Perform projection and similarity calculation using the command below:
+- Perform projection and conditional similarity calculation using the command below:
 
 ```bash
-python projection2.py
+python projcondSimilarity.py
+```
+
+- Perform pyschology dimension calculation using the command below:
+
+```bash
+python dimensionalSimilarity.py
 ```
 
 - You can perform classification tasks by executing the command below:
