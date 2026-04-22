@@ -10,21 +10,24 @@
 
 import numpy as np
 from transformers import BertTokenizer, BertModel
+from pathlib import Path
 # import jieba
 # import torch
 from tqdm import tqdm
 
 # 加载模型和工具
-# model_name = r'.\model\chinese-wwm-pytorch'   # 基础版
-model_name = r'.\model\chinese-bert-wwm-ext'   # 哈工大中文bert模型扩展版
+pwd = Path(__file__).resolve().parent  # 当前脚本工作目录
+
+# model_name = pwd / 'model/chinese-wwm-pytorch'   # 基础版
+model_name = pwd / 'model/chinese-bert-wwm-ext'   # 哈工大中文bert模型扩展版
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertModel.from_pretrained(model_name)
 
 # 从文件输入单词集合
 wordset = list()
 wordset_vect = list()
-path = r'./'
-fileName = path + r'data/lisu/independ_interdepend.csv'  # change to 'bai'/'hani'/'lisu'
+fileName = pwd / 'data/lisu/relmobility.csv'  # TODO: change csv file to 'Aesthetic'/'History'/'Semiology'/'Sociology'/'bai'/'hani'/'lisu', etc.
+
 with open(fileName, 'r', encoding='UTF-8') as wsf:
     lines = wsf.readlines()
     pbar = tqdm(total = 100)  # 进度条
@@ -73,7 +76,7 @@ with open(fileName, 'r', encoding='UTF-8') as wsf:
     pbar.close()
 
 # 保存向量到文件 
-saveFile = fileName + r'.vec'
+saveFile = str(fileName) + '.vec'
 with open(saveFile, 'w', encoding='UTF-8') as vecf:
     for word, vec in zip(wordset, wordset_vect):
         vecf.write(word + '@' +  str(vec.tolist()) + '\n')  # 因为有向量，向量的分隔符是逗号，所以这里用@分割各个项

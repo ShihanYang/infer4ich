@@ -16,6 +16,9 @@ import time
 from projection2 import loadEmbedding, project_vector_set, score
 from yaspin import yaspin, Spinner
 import sys
+from pathlib import Path
+pwd = Path(__file__).resolve().parent
+
 
 class Coffee:  # make a class to store the output information of each print statement
     def __init__(self, log_file_name):
@@ -305,18 +308,19 @@ def psychology_similarity(one, two):
 
 if __name__ == '__main__':
     sys.stdout = Coffee(f'log-{dt.now().strftime("%Y%m%d-%H%M%S")}.txt')  # redirect stdout to log file
+    
     start_time = time.time()
 
     ###############################################################
     # Perform the similarity between ICH projects one and another
     ###############################################################
-    one = 'bai-syj'   # change data directory, 'lisu-dgj' or 'hani-jzsl'
-    another = 'hani-jzsl'
+    one = 'bai-syj'   # TODO: change data directory, 'bai-syj', 'lisu-dgj' or 'hani-jzsl'
+    another = 'lisu-dgj'
     print(f'@ {dt.now().strftime("%Y%m%d-%H:%M:%S")}\nComputing similarity between {one.upper()} and {another.upper()}')
     
     # 1. load spaces embeddings
     spaces = dict()
-    path = r"e:/Desktop/非遗/experiment/wordev/data/"    # TODO: change the path to your own
+    path = pwd / "data"    
     space_files = [
         "History.csv.vec",
         "Aesthetic.csv.vec",
@@ -326,18 +330,18 @@ if __name__ == '__main__':
     print("loading space embeddings ...")
     for sf in space_files:
         key = sf.split('.')[0].lower()
-        spaces[key] = loadEmbedding(path + sf)
+        spaces[key] = loadEmbedding(str(path) + '/' + sf)
     print('& Loaded.')
         
     # 2. load vector sets embeddings
     vsembeddings = dict()
-    vsembedding_files = ['bai-syj.csv.vec', 'hani-jzsl.csv.vec']
+    vsembedding_files = [one+'.csv.vec', another+'.csv.vec']
     vse_name = list()  # len(vse_name) = 2
     print("loading wordset embeddings ...")
     for wsf in vsembedding_files:
         key = wsf.split('.')[0].lower()
         vse_name.append(key)
-        vsembeddings[key] = loadEmbedding(path + wsf)
+        vsembeddings[key] = loadEmbedding(str(path) + '/' + wsf)
     print("& Loaded.")
     
     # 3. compute projections onto each space, and cost too much here
