@@ -314,7 +314,7 @@ if __name__ == '__main__':
     ###############################################################
     # Perform the similarity between ICH projects one and another
     ###############################################################
-    one = 'bai-syj'   # TODO: change data directory, 'bai-syj', 'lisu-dgj' or 'hani-jzsl'
+    one = 'hani-jzsl'   # TODO: change data directory, 'bai-syj', 'lisu-dgj' or 'hani-jzsl'
     another = 'lisu-dgj'
     print(f'@ {dt.now().strftime("%Y%m%d-%H:%M:%S")}\nComputing similarity between {one.upper()} and {another.upper()}')
     
