@@ -1,8 +1,8 @@
 #  @file: classifying.py
 #  @version：1.0.5
-#  @brief: KNN Algorithm with k = 3 (goverment-led, community-leb, mixed pattern)
+#  @brief: KNN Algorithm with K (hyperparameter) & the number of classes = 3 (goverment-led, community-leb, mixed pattern)
 #  @creation date: 2025.08.28
-#  @last modified date: 2025.11.12 
+#  @last modified date: 2026.04.23 
 #  @authors: S. Yang
 #  @copyright: © 2025 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license. 
@@ -133,6 +133,39 @@ def plot_decision_boundary(model, X, y, title="KNN classification boundary"):
     
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
+    
+def Kchoice(data, Kset):
+    from scipy.interpolate import make_interp_spline
+    K = list(Kset)
+    best_K = K[0]
+    best = 0
+    accuracies = []
+
+    for k in K:
+        knn = KNNClassifier(k=k)
+        knn.fit(data['X_train'], data['y_train'])
+        preds = knn.predict(data['X_test'])
+        acc = accuracy_score(data['y_test'], preds)
+        accuracies.append(acc)
+        if acc >= best + 1e-6:
+            best_K = k
+            best = acc
+
+    xnew = np.linspace(min(K), max(K), 400)
+    spl = make_interp_spline(K, accuracies, k=3)  # k=3表示三次样条
+    y_smooth = spl(xnew)
+
+    plt.figure(figsize=(5.2, 4))
+    plt.plot(xnew, y_smooth, color='green')
+    plt.scatter(K, accuracies, color='red')  
+    plt.xlabel('K-Value')
+    plt.ylabel('Accuracy')
+    plt.title('Accuracy vs. K-value (spline interpolation smoothing)')
+    # plt.grid()
+    plt.savefig('kchoice.svg')
+    plt.show()
+    
+    return best_K
 
 def main():
     # 1. 读取数据集
@@ -158,10 +191,20 @@ def main():
     X_train_scaled = scaler.fit_transform(X_train)  
     X_test_scaled = scaler.transform(X_test)
     
+    print("3.8 Accuracy vs. K-value ")
+    # 调整K值、评价K值, 通常采用K-Cross Validation选择最优K值，也可以直接用sklearn的GridSearchCV方法
+    # 可以取值K={2,3,5,7,11,13,17}
+    best_K = Kchoice({'X_train':X_train_scaled,
+                'y_train':y_train,
+                'X_test':X_test_scaled,
+                'y_test':y_test }, 
+                {1,2,3,5,7,11,13,17,19})  # range(1,25)
+    print('   best_K =', best_K)
+    
     # 4. 创建并训练KNN分类器
     print("4. 训练KNN分类器...")
-    K = 7  # TODO: 调整K值, 通常采用K-Cross Validation选择最优K值，也可以直接用sklearn的GridSearchCV方法
-    knn = KNNClassifier(k=K)  # k值不是类别数，而是邻居数，需要自己调整（超参数选择）
+    K =  best_K  # here is 7  
+    knn = KNNClassifier(k=K)  # K值不是类别数，而是邻居数，需要自己调整（超参数选择）
     knn.fit(X_train_scaled, y_train)
     
     # 5. 进行预测
@@ -256,10 +299,10 @@ def main():
     plt.show()
     
     # 8. 分析KNN算法的优缺点
-    print("\nKNN算法特点分析:")
-    print("- 优点: 思想简单，易于理解和实现，对异常值不敏感")
-    print("- 缺点: 计算量大，需要存储整个训练数据集")
-    print("- 适用场景: 小数据场景，几千~几万样本")
+    # print("\nKNN算法特点分析:")
+    # print("- 优点: 思想简单，易于理解和实现，对异常值不敏感")
+    # print("- 缺点: 计算量大，需要存储整个训练数据集")
+    # print("- 适用场景: 小数据场景，几千~几万样本")
 
 if __name__ == "__main__":
     main()

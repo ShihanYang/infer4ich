@@ -49,12 +49,6 @@ python culturalSimilarity.py
 python classifying.py
 ```
 
-- Or, execute the classification task using the command below, while also displaying the classification boundaries:
-
-```bash
-python classifying2.py
-```
-
 - Get simple assessment values by:
 
 ```bash
