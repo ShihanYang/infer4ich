@@ -1,9 +1,9 @@
 #  @file: weighted_scores.py
-#  @version：1.0.5
+#  @version：1.0.8
 #  @brief: computing the weighted scores in following weight-vectors
 #          disciplinary weights on the cultural psychological framework
 #  @creation date: 2025.08.28
-#  @last modified date: 2025.11.20
+#  @last modified date: 2026.04.24
 #  @authors: S. Yang
 #  @copyright: © 2025 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license. 
@@ -20,6 +20,9 @@
 
 import numpy as np
 from projection2 import loadEmbedding, project_vector_set, score, score2
+from pathlib import Path
+pwd = Path(__file__).resolve().parent
+
 
 # the embedding of word lists in each pyschological dimension
 ws_embeddings = dict()   # dict_keys = (independ, interdepend, individ, collect, tight, loose, relmobility)
@@ -34,7 +37,7 @@ on_tight_loose = (0.3425,0.0901,0.0574,0.5101)
 on_relmobility = (0.5672,0.0461,0.1323,0.2544)
 
 # Specified assessment object
-assessed_name = 'hani'  # TODO: Changing the assessed name, 'bai' or 'hani'
+assessed_name = 'lisu'  # TODO: Changing the assessed name, 'bai',  'hani' or 'lisu'
 
 # loading embedding
 space_files = [
@@ -52,13 +55,12 @@ wordset_files = [
     "loose.csv.vec",
     "relmobility.csv.vec"
 ]
-path = r"./"
 
 # load embedding domain spaces
-directory = path + r"data/"
+directory = pwd / "data"
 for sf in space_files:
     key = sf.split('.')[0].lower()
-    spaces[key] = loadEmbedding(directory + sf)
+    spaces[key] = loadEmbedding(directory / sf)
 
 print('Disciplinary Space:')
 print('      history -', spaces['history'].shape)
@@ -67,10 +69,10 @@ print('    semiology -', spaces['semiology'].shape)
 print('    sociology -', spaces['sociology'].shape)
 
 # load word sets embedding
-directory = path + r'data/' + assessed_name + '/'
+directory = directory / assessed_name
 for wsf in wordset_files:
     key = wsf.split('.')[0].lower()
-    ws_embeddings[key] = loadEmbedding(directory + wsf)
+    ws_embeddings[key] = loadEmbedding(directory / wsf)
 
 print('Wordsets Embedding:')    
 for k in ws_embeddings.keys():
