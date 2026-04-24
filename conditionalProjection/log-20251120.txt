@@ -1,4 +1,4 @@
-E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/wordev/weighted_scores.py
+PS python.exe weighted_scores.py
 Disciplinary Space:
       history - (6538, 768)
     aesthetic - (13715, 768)
@@ -30,7 +30,7 @@ Got scores of BAI on weighted disciplines :
    0.3680151116529347
 
 
-PS E:\Desktop\非遗\experiment> & D:/python312/python.exe e:/Desktop/非遗/experiment/wordev/weighted_scores.py
+PS python.exe weighted_scores.py
 Disciplinary Space:
       history - (6538, 768)
     aesthetic - (13715, 768)
@@ -60,3 +60,36 @@ Got scores of HANI on weighted disciplines :
    0.09029155074192716
 - relmobility:
    0.5009288583449145
+
+
+PS python.exe weighted_scores.py
+Disciplinary Space:
+      history - (6538, 768)
+    aesthetic - (13715, 768)
+    semiology - (8956, 768)
+    sociology - (3693, 768)
+Wordsets Embedding:
+     independ - (32, 768)
+     interdepend - (18, 768)
+     individ - (12, 768)
+     collect - (111, 768)
+     tight - (140, 768)
+     loose - (14, 768)
+     relmobility - (28, 768)
+LISU @ 2026-04-24 18:29:56.396966
+Got scores of LISU on weighted disciplines :
+- independ:
+   0.3999383433992204
+- interdepend:
+   0.45914976895354487
+- individ:
+   0.3982238866791878
+- collect:
+   0.40256223139921304
+- tight:
+   0.40339727719285934
+- loose:
+   0.4426600382560357
+- relmobility:
+   0.4113682934536639
+   

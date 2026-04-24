@@ -100,8 +100,8 @@ print(f"Got scores of {assessed_name.upper()} on weighted disciplines :")
 
 scores = dict()
 for key, prj in projections.items():
-    scores[key] = score(prj)   # 注意选取不同的score函数，得到不同的结果, TODO: Changing the score methods
-    # scores[key] = score2(prj)  # TODO: Changing the score methods
+    # scores[key] = score(prj)   # 注意选取不同的score函数，得到不同的结果, TODO: Changing the score methods
+    scores[key] = score2(prj)  # TODO: Changing the score methods
 
 ########################
 # dimension 1
