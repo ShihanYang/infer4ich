@@ -1,6 +1,6 @@
 #  @file: berttune.py
 #  @version：1.0.5
-#  @brief: # Tunning Transformer-based模型
+#  @brief: # Tunning Transformer-based model, TEMPLATE.
 #  @creation date: 2025.08.28
 #  @last modified date: 2025.10.12 
 #  @authors: S. Yang
@@ -39,7 +39,7 @@ modelpath = r'.\model\bert-base-chinese'
 tokenizer = BertTokenizer.from_pretrained(modelpath)   # 加载分词器
 model = BertForSequenceClassification.from_pretrained(modelpath, num_labels=3)   # 加载预训练模型
 
-# 调优前分类器(这里实验一个情感分类器)
+# 调优前
 classifier = pipeline('text-classification', model=model, tokenizer=tokenizer)
 sentences = ["今天我的心情好到爆了。",
              "用Python编程指南。",
@@ -56,18 +56,10 @@ labels = list(label_map.keys())
 print("标签集合:", labels)  # ['LABEL_0', 'LABEL_1', 'LABEL_2']
 
 # 装载调优数据
-# dataset = load_dataset('lansinuote/ChnSentiCorp')   # 加载内置数据集，网络原因常常失败：
-                                                      # ConnectionError: Couldn't reach 'lansinuote/ChnSentiCorp' on the Hub (LocalEntryNotFoundError)    
-
-# dataset = load_dataset("csv", data_files={"train": r"F:\mycodes\wordev\data\train.csv"})  # 加载本地数据集合
-
-# 或者这样读文件夹组织的数据
-dataset_path = r".\data\lansinuote\ChnSentiCorp"
+dataset_path = r".\data\dict.csv"  # TODO: 需要重新准备数据集
 dataset = load_from_disk(dataset_path)
 
-print(dataset)  # 查看数据集描述
-# train_data = dataset["train"]
-# print(train_data[0:5])   # 查看数据，数据可以用pandas来处理
+print(dataset)  
 
 # 简单的文本清理函数
 def clean_text(text):  
@@ -94,6 +86,7 @@ training_args = TrainingArguments(
      eval_strategy='epoch',       
      logging_dir='./logs'  
 )      
+
 # 构造训练对象
 trainer = Trainer(   
     model=model,       
@@ -101,24 +94,23 @@ trainer = Trainer(
     train_dataset=encoded_dataset['train'],       
     eval_dataset=encoded_dataset['validation'], 
 )  
+
 # 调优训练 
-trainer.train()   # 训练很费时！本机一般一个迭代10s，32batches，9600samples，300个it每epoch，时间大约50分钟 
-                  # 也费空间，需要大约5G的内存  
+trainer.train()   # 训练很费时, 也费空间  
 
 # 评估调优后的模型
 trainer.evaluate(encoded_dataset['test'],metric_key_prefix='eval')     
 
 # 保存模型 
-model.save_pretrained('./sentiment_model')   
-tokenizer.save_pretrained('./sentiment_model')   
-
+model.save_pretrained('./tuned_model')   
+tokenizer.save_pretrained('./tuned_model')   
 
 
 ###############################
 # 调优后，使用新模型
 ###############################
 
-from transformers import BertTokenizer, BertForSequenceClassification, AutoModelForSequenceClassification, AutoTokenizer, pipeline      
+from transformers import BertTokenizer, BertForSequenceClassification, AutoModelForSequenceClassification, pipeline      
 
 mode_dir = './sentiment_model'      
 
@@ -134,9 +126,8 @@ for s in sentences:
 
 
 
-
 #####################################
-# 训练一个epoch之后的结果
+# 训练一个epoch之后的结果 log
 #####################################
 '''
 Before tunning:
