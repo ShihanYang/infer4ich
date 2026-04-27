@@ -222,7 +222,7 @@ def psychology_similarity(one, two):
     '''
     dimensionalSimilarity = dict()
     
-    print(f'@ {dt.now()} - pyschology dimension similarity between {one.upper()} and {two.upper()}')
+    print(f'@ {dt.now()} - pyschology dimension conditional similarity between {one.upper()} and {two.upper()}')
     
     # 1. load spaces embeddings
     spaces = dict()
@@ -309,6 +309,9 @@ def psychology_similarity(one, two):
     
 
 if __name__ == '__main__':
+
+    # testing codes here !!!
+    
     sys.stdout = Coffee(f'log-{dt.now().strftime("%Y%m%d-%H%M%S")}.txt')  # redirect stdout to log file
     
     start_time = time.time()
@@ -316,9 +319,9 @@ if __name__ == '__main__':
     ###############################################################
     # Perform the similarity between ICH projects one and another
     ###############################################################
-    one = 'hani-jzsl'   # TODO: change data directory, 'bai-syj', 'lisu-dgj' or 'hani-jzsl'
+    one = 'bai-syj'   # TODO: change data directory, 'bai-syj', 'lisu-dgj' or 'hani-jzsl'
     another = 'lisu-dgj'
-    print(f'@ {dt.now().strftime("%Y%m%d-%H:%M:%S")}\nComputing similarity between {one.upper()} and {another.upper()}')
+    print(f'@ {dt.now().strftime("%Y%m%d-%H:%M:%S")}\nComputing conditional similarity between {one.upper()} and {another.upper()}')
     
     # 1. load spaces embeddings
     spaces = dict()

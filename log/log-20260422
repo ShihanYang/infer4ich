@@ -149,21 +149,3 @@ weights vector in relmobility (0.5672, 0.0461, 0.1323, 0.2544)
 Weighted dimensional similarity on all spaces: 0.80084187925755
 &@ 2026-04-22 22:03:10.791823 DONE.
 {'independ_interdepend': 0.7974321355071656, 'individ_collect': 0.7958515311032623, 'tight_loose': 0.7884945025593078, 'relmobility': 0.80084187925755}
-
-====================================
-
-PS python.exe /infer4ich/conditionalProjection/culturaldifference.py
-@ 2026-04-22 22:21:59.000128 - cultural similarity between BAI and LISU
-loading space embeddings ...
-& Loaded.
-loading wordset embeddings ...
-& Loaded.
-projecting ... 
-  is processing & OK: Projected. (0:33:32.57)
-  their distance in history : 1.1553945098688998
-  their distance in aesthetic : 1.1441363903975514
-  their distance in semiology : 1.2112023503474805
-  their distance in sociology : 1.1320133258233123
-& Computed distances.
-Culture difference between BAI-SYJ and LISU-DGJ (weighted): 1.1508349911726663
-

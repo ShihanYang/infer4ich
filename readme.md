@@ -18,8 +18,8 @@
 
 - Python 3.9 or higher is required.
 - Prepare your directory and data, like "./data/hani/---.csv", and ensure the model is correctly downloaded into the directory "./model/".
-- To vectorize all your wordsets files (.csv file) by 
-  
+- To vectorize all your wordsets files (.csv file) by
+
 ```bash
 python wordset2embedding.py
 ```
@@ -37,7 +37,7 @@ python projcondSimilarity.py
 python dimensionalSimilarity.py
 ```
 
-- Perform cultural similarity calculation between One and anther ethnic groups using the command below:
+- Perform cultural conditioanl similarity calculation between One and anther ethnic groups using the command below:
 
 ```bash
 python culturalSimilarity.py
