@@ -67,7 +67,7 @@ on_spaces = [(x+y+z+r)/4 for x,y,z,r in zip(on_independ_interdepend, on_individ_
 #################################################################
 # 计算两组不同个数的同维向量之间的Wasserstein距离
 # 语义需求方面: 若关注整体形状相似性，用豪斯多夫或最大均值差异 (MMD)；
-#              若关注分布，用Wasserstein或KL散度。
+#              若关注分布，用Wasserstein或KL散度,其值域[0, +∞)。
 #################################################################
 def wasserstein_distance(X, Y):
     '''
@@ -90,14 +90,14 @@ def wasserstein_distance(X, Y):
     return w_dist_approx
 
 #################################################################
-# 计算两组不同个数的同维向量之间的Hausdorf距离
+# 计算两组不同个数的同维向量之间的Hausdorf距离,值域[0, +∞)
 #################################################################
 def hausdorff_distance(u, v):
     from scipy.spatial.distance import directed_hausdorff
     return max(directed_hausdorff(u, v)[0], directed_hausdorff(v, u)[0])
 
 #################################################################
-# 计算两组向量之间的规范化距离
+# 计算两组向量之间的规范化距离，值域[0, 1]
 #################################################################
 def normalized_distance(u, v):
     '''
@@ -128,7 +128,7 @@ def sigmoid(value):
     return sig
 
 #################################################################
-# 根据距离来计算两组向量直接的相似性
+# 根据规范化距离来计算两组向量直接的相似性
 #################################################################
 def projections_similarity(distance):
     # conditiional similarity = 1 - distance
@@ -141,13 +141,13 @@ def culture_difference(one, two):
     '''
     one: 存放第一个ICH project对象的 .csv.vec embedding files的目录
     two: 存放另一个ICH project对象的 .csv.vec embedding files的目录
-    return: Weighted similarity 
-    idea: one and two is projected onto four spaces, and their similarity 
+    return: Weighted distance 
+    idea: one and two is projected onto four spaces, and their difference 
           is computed on 4 spaces, then weighted by the weights vector.
     '''
     name_one = one.split('-')[0]
     name_two = two.split('-')[0]
-    print(f'@ {dt.now()} - cultural similarity between {name_one.upper()} and {name_two.upper()}')
+    print(f'@ {dt.now()} - cultural difference (distance) between {name_one.upper()} and {name_two.upper()}')
     
     # 1. load spaces embeddings
     spaces = dict()
@@ -197,15 +197,15 @@ def culture_difference(one, two):
     for space in spacename:
         x = projections[(vse_name[0], space)]
         y = projections[(vse_name[1], space)]
-        dist = wasserstein_distance(x, y)
-        print('  their distance in', space, ':', dist)
-        distanceOn[space] = dist
+        dist = wasserstein_distance(x, y)  # TODO: change to other distance metrics
+        # dist = normalized_distance(x, y)
+        print('  their distance on', space, ':', sigmoid(dist))
+        distanceOn[space] = sigmoid(dist)  
     print("& Computed distances.")
 
     # 5. weighted the difference, conditional similarity about culture difference
     diffference = np.array(total_weight) @ np.array(list(distanceOn.values()))
-    print(f'Culture difference between {one.upper()} and {two.upper()} (weighted):', 
-          diffference)
+    print(f'Culture difference between {one.upper()} and {two.upper()} (weighted) : {diffference}')
 
     return diffference
 
@@ -239,7 +239,7 @@ def psychology_similarity(one, two):
         spaces[key] = loadEmbedding(str(path) +'/'+ sf)
     print('& Loaded.')
         
-    # 2. load vector sets embeddings
+    # 2. load vector sets embeddings for each psychology dimension
     vsembeddings = dict()
     vsembedding_files = [one+'/independ_interdepend.csv.vec', one+'/individ_collect.csv.vec',
                          one+'/tight_loose.csv.vec', one+'/relmobility.csv.vec',
@@ -278,7 +278,7 @@ def psychology_similarity(one, two):
             x = projections[(one+'/'+dim, space)]
             y = projections[(two+'/'+dim, space)]
             dist = maxeigen_distance(x, y)
-            print('  their distance', dim, 'in', space, ':', dist)
+            print('  their distance', dim, 'on', space, ':', dist)
             distanceOn[(dim, space)] = dist
     
     # 5. compute the similarity of pairwise projection 
@@ -299,7 +299,7 @@ def psychology_similarity(one, two):
         group = {k:v for k,v in similarityOn.items() if k[0] == dim}
         for space in spacename:
             print('  similarity', dim, 'in', space, ':', group[(dim,space)])
-        print('weights vector in', dim, weights[dim])
+        print('weights vector on', dim, weights[dim])
         weighted_similarity = np.dot(weights[dim], list(group.values()))
         print('Weighted dimensional similarity on all spaces:', weighted_similarity)
         dimensionalSimilarity[dim] = weighted_similarity
@@ -320,7 +320,7 @@ if __name__ == '__main__':
     # Perform the similarity between ICH projects one and another
     ###############################################################
     one = 'bai-syj'   # TODO: change data directory, 'bai-syj', 'lisu-dgj' or 'hani-jzsl'
-    another = 'lisu-dgj'
+    another = 'hani-jzsl'
     print(f'@ {dt.now().strftime("%Y%m%d-%H:%M:%S")}\nComputing conditional similarity between {one.upper()} and {another.upper()}')
     
     # 1. load spaces embeddings
@@ -338,7 +338,7 @@ if __name__ == '__main__':
         spaces[key] = loadEmbedding(str(path) + '/' + sf)
     print('& Loaded.')
         
-    # 2. load vector sets embeddings
+    # 2. load vector sets embeddings for each ethnic group (no psychology dimension here)
     vsembeddings = dict()
     vsembedding_files = [one+'.csv.vec', another+'.csv.vec']
     vse_name = list()  # len(vse_name) = 2
@@ -363,8 +363,8 @@ if __name__ == '__main__':
         # every one is projected onto each space
         for space in spacename:
             for vse in vse_name:
-                projections[(vse, space)] = project_vector_set(vsembeddings[vse], # [:np.random.randint(10,21)], 
-                                                               spaces[space])  # TODO Sometimes small data is used for testing, spaces[space][:120]
+                projections[(vse, space)] = project_vector_set(vsembeddings[vse], 
+                    spaces[space]) # [:120])  # TODO Sometimes small data is used for testing, spaces[space][:120]
         spinner.ok("& OK: Projected.")
             
     # 4. compute the distance of pairwise projection on each space
@@ -376,24 +376,39 @@ if __name__ == '__main__':
         # dist = hausdorff_distance(x, y)
         # dist = normalized_distance(x, y)  # normalized distance
         dist = maxeigen_distance(x, y)
-        print('  distance in the', space, ':', dist)
         distanceOn[space] = dist
-    
+    # normalized distance
+    e = 2e-4
+    dmax = max([*distanceOn.values()])
+    dmin = min([*distanceOn.values()])
+    for space in spacename:
+        dist = distanceOn[space]
+        dist = (dist - dmin + e) / (dmax - dmin + 2*e)
+        distanceOn[space] = dist
+        print('  total distance on the', space, ':', dist)
+    print('& Computed distances.')
+
     # 5. compute the similarity of pairwise projection 
-    # 5.5 Perform distance transformation into [-3, 3] from [0, 1], y = 6x - 3  
     exptotal = sum(np.exp(list(distanceOn.values())))
     for key in distanceOn.keys():
         distanceOn[key] = np.exp(distanceOn[key]) / exptotal  
-        distanceOn[key] = 6 * distanceOn[key] - 2.99
         
     similarityOn = dict()
     for dist in distanceOn.keys():
         similarityOn[dist] = projections_similarity(distanceOn[dist]) 
+    # normalized similarity
+    e = 2e-3
+    smax = max([*similarityOn.values()])
+    smin = min([*similarityOn.values()])
+    for dim in similarityOn.keys():
+        simi = similarityOn[dim]
+        simi = (simi - smin + e) / (smax - smin + 2*e)
+        similarityOn[dim] = simi
     
     # 6. weighted on all spaces
     print('Similarity on each space:')
     for simi in similarityOn.keys():
-        print('  similarity in the', simi, ':', similarityOn[simi])
+        print('  similarity on the', simi, ':', similarityOn[simi])
     print('weights vector :', on_spaces)
     weighted_similarity = np.dot(on_spaces, list(similarityOn.values()))
     print('Weighted similarity on all spaces:', weighted_similarity)

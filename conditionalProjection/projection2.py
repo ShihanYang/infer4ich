@@ -19,6 +19,7 @@ def loadEmbedding(file):
     file: a embedding .csv file name
     return: 
     '''
+    print('  load ->', file)
     embeddings = list()
     with open(file, 'r', encoding='utf-8') as wsf:
         lines = wsf.readlines()
