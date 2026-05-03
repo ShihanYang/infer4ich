@@ -11,16 +11,17 @@
 
 import numpy as np
 from sklearn.cluster import KMeans
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
 from scipy.interpolate import make_interp_spline
 import matplotlib.pyplot as plt
 from pathlib import Path
 pwd = Path(__file__).resolve().parent
 
 file = pwd / 'assesmentvalue++.csv'  # modify the input filename to load different datasets
-assessvalue = np.loadtxt(file, dtype=float, delimiter=',')   
+ori_assessvalue = np.loadtxt(file, dtype=float, delimiter=',')   
 # print(type(assessvalue), assessvalue.shape, assessvalue[0:5])  
-assessvalue = assessvalue[:, 0:5]  # Use the first five columns for clustering; the sixth column is the label and is not needed.
-
+assessvalue = ori_assessvalue[:, 0:5]  # Use the first five columns for clustering
+labels = ori_assessvalue[:, 5]  # Use the sixth column for labels
 
 # Use the elbow method to determine the optimal value of k in k-means clustering.
 sse = []
@@ -43,8 +44,8 @@ plt.plot(x, y, 'o',markeredgecolor='red', markerfacecolor='red')
 plt.xlabel('k')
 plt.ylabel('SSE')  
 plt.title('Elbow Method For Optimal k in k-means Clustering')
-plt.savefig(pwd / 'elbow.svg')
-plt.show()  # The visualization of the data shows a clear elbow around k = 3 ！
+# plt.savefig(pwd / 'elbow.svg')
+# plt.show()  # The visualization of the data shows a clear elbow around k = 3 ！
 
 
 # the optimal k value is 3
@@ -74,6 +75,71 @@ print('number in each class:', len(c1), len(c2), len(c3))
 # print(c1)
 # print(c2)
 # print(c3, np.array(c3).shape)  
+
+# decide the label of each class
+pred_labels = []
+c1_0, c1_1, c1_2 = 0, 0, 0
+c2_0, c2_1, c2_2 = 0, 0, 0
+c3_0, c3_1, c3_2 = 0, 0, 0
+epsilon = 1e-4
+for item in ori_assessvalue:
+    if any(np.allclose(item[0:5], x, atol=epsilon) for x in c1):
+        pred_labels.append('c1')
+        if item[5] == 0: c1_0 += 1
+        elif item[5] == 1: c1_1 += 1
+        elif item[5] == 2: c1_2 += 1
+    elif any(np.allclose(item[0:5], x, atol=epsilon) for x in c2):
+        pred_labels.append('c2')
+        if item[5] == 0: c2_0 += 1
+        elif item[5] == 1: c2_1 += 1
+        elif item[5] == 2: c2_2 += 1
+    elif any(np.allclose(item[0:5], x, atol=epsilon) for x in c3):
+        pred_labels.append('c3')
+        if item[5] == 0: c3_0 += 1
+        elif item[5] == 1: c3_1 += 1
+        elif item[5] == 2: c3_2 += 1
+label_c1 = np.argmax([c1_0, c1_1, c1_2])  # voting for the label of each class
+label_c2 = np.argmax([c2_0, c2_1, c2_2])
+label_c3 = np.argmax([c3_0, c3_1, c3_2])
+print(f'label of each class: c1:{label_c1}, c2:{label_c2}, c3:{label_c3}')
+
+for i in range(len(pred_labels)):
+    if pred_labels[i] == 'c1':
+        pred_labels[i] = label_c1
+    elif pred_labels[i] == 'c2':
+        pred_labels[i] = label_c2
+    elif pred_labels[i] == 'c3':
+        pred_labels[i] = label_c3
+
+# [0:'goverment-led', 1:'community-led', 2:'mixed pattern']
+def num2type(num):
+    if num == 0:
+        return "governmend-led"
+    elif num == 1:
+        return "community-led"
+    else:
+        return "mixed pattern"
+    
+label_c1 = num2type(label_c1)
+label_c2 = num2type(label_c2)
+label_c3 = num2type(label_c3)
+
+# print(pred_labels)
+# print(labels)
+print('Accuracy:', np.sum(pred_labels == labels) / len(labels))
+print('  total samples:', len(pred_labels))
+print('  true numbers:', accuracy_score(labels, pred_labels, normalize=False))
+print('  accuracy_score:', accuracy_score(labels, pred_labels))
+# Reporting the accuracy and classification report
+print(classification_report(labels, pred_labels))
+# Reporting confusion matrix
+cm = confusion_matrix(labels, pred_labels)
+print("Confusion Matrix:")
+print(cm)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm,
+                             display_labels=[f'Class 1: {label_c1}', f'Class 2: {label_c2}', f'Class 3: {label_c3}'])
+disp.plot(cmap='Reds')
+# plt.show()
 
 # 绘制三类样本点的分布
 if len(assessvalue.shape) == 1:
