@@ -14,16 +14,16 @@ from collections import Counter
 # from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, f1_score
 from matplotlib.colors import ListedColormap
 
 class KNNClassifier:
-    def __init__(self, k=3):
+    def __init__(self, K=3):
         """
         参数:
         k (int): 最近邻的数量，默认为3
         """
-        self.k = k
+        self.k = K
         self.X_train = None
         self.y_train = None
     

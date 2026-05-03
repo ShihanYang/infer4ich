@@ -11,7 +11,7 @@
 
 import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay, f1_score
 from scipy.interpolate import make_interp_spline
 import matplotlib.pyplot as plt
 from pathlib import Path
@@ -130,7 +130,7 @@ print('Accuracy:', np.sum(pred_labels == labels) / len(labels))
 print('  total samples:', len(pred_labels))
 print('  true numbers:', accuracy_score(labels, pred_labels, normalize=False))
 print('  accuracy_score:', accuracy_score(labels, pred_labels))
-# Reporting the accuracy and classification report
+print('  F1-score:', f1_score(labels, pred_labels, average='weighted'))
 print(classification_report(labels, pred_labels))
 # Reporting confusion matrix
 cm = confusion_matrix(labels, pred_labels)
