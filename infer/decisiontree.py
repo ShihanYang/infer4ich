@@ -58,3 +58,35 @@ plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.title('Confusion Matrix')
 plt.show()
+
+
+
+'''
+(38, 6)  只包含测试数据，有意义
+                precision    recall  f1-score   support
+
+ community-led       0.92      0.92      0.92        24
+government-led       0.50      0.75      0.60         4
+         mixed       0.88      0.70      0.78        10
+
+      accuracy                           0.84        38
+     macro avg       0.76      0.79      0.76        38
+  weighted avg       0.86      0.84      0.85        38
+
+Accuracy of Decision Tree Classifier: 0.8421
+'''
+
+'''
+(188, 6)  包含了训练数据，意义不大
+                precision    recall  f1-score   support
+
+ community-led       0.98      0.98      0.98       113
+government-led       0.91      0.97      0.94        30
+         mixed       0.98      0.93      0.95        45
+
+      accuracy                           0.97       188
+     macro avg       0.96      0.96      0.96       188
+  weighted avg       0.97      0.97      0.97       188
+
+Accuracy of Decision Tree Classifier: 0.9681
+'''
