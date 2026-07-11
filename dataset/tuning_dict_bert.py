@@ -1,9 +1,9 @@
 #  @file: tuning_dict_bert.py
-#  @version：1.0.0
+#  @version：1.0.5
 #  @brief: This script is used to fine-tune a BERT model with a user-defined dictionary.
 #          Fine-tune the word (term) embedding using its definition text (e.g., the entry in a specialized dictionary).
 #  @creation date: 2026.04.24
-#  @last modified date: 2026.04.24 
+#  @last modified date: 2026.07.11 
 #  @authors: S. Yang
 #  @copyright: © 2026 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license. 
@@ -23,7 +23,8 @@ LOCAL_MODEL_PATH = pwd.parent / 'conditionalProjection' / 'model' / 'chinese-ber
 USER_DICT_PATH = pwd / 'dictionary'
 OUTPUT_DIR = pwd / 'tuned'
 
-dict_file_name = 'Aesthetic-.csv'   # TODO: change to your dictionary
+# dict_file_name = 'Aesthetic-.csv'   # TODO: change to your dictionary
+dict_file_name = 'tuningtest.csv'
 dictionary = USER_DICT_PATH / dict_file_name  
 
 def load_local_model():
