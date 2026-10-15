@@ -61,3 +61,18 @@ with open('data.csv', 'w', encoding='utf-8') as f:
     for item in ready_data:
         f.write(','.join([str(i) for i in item]) + '\n')
         
+
+# create triples and save to the file triples.tsv
+triples = []  # like (h, r, t)
+for i in range(0, len(data)):
+    line = data[i].strip().split(',')
+    h = line[1]
+    r = line[2][1:-1]
+    n = len(r)//100
+    t = line[7]
+    for j in range(100):
+        triples.append((h, r[j*n:(j+1)*n], t))
+
+with open('triples.tsv', 'w', encoding='utf-8') as f:
+    for item in triples:
+        f.write('\t'.join([str(i) for i in item]) + '\n')

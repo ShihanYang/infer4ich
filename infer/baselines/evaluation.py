@@ -32,7 +32,11 @@ from statsmodels.stats.contingency_tables import mcnemar
 import scipy.stats as st
 import jieba
 
-from tool_ready import text_to_vector
+from tool_ready import ( 
+    text_to_vector,
+    extract_bert_features,
+    get_kg_embedding    
+)
 
 
 
@@ -60,8 +64,10 @@ texts = data.ichname +' := '+ data.description  # description for each ich
 
 # Preparation of feature data for the baseline model
 X_w2v = [text_to_vector(texts, text) for text in texts]  # (188, 200)
-print(X_w2v[0].shape, X_w2v[0])
-X_bert = np.random.randn(n_samples, 768)
+X_bert = extract_bert_features(texts)  # (188, 768)
+
+triples_file = r"triples.tsv"
+entity_embeddings, relation_embeddings, index = get_kg_embedding(path = triples_file)
 X_kg = np.random.randn(n_samples, 64)
 
 # Balanced dataset indexing: down-sample the community-led (label=1) class to 37 samples
@@ -146,14 +152,14 @@ def run_knn(X, y, k=7, n_splits=5, n_repeats=10):
 # 4. 决策树
 # ============================================================
 def run_decision_tree(X, y, n_splits=5, n_repeats=10):
-    model = DecisionTreeClassifier(random_state=42)
+    model = DecisionTreeClassifier(random_state=68)
     return evaluate_model(X, y, model, n_splits, n_repeats)
 
 # ============================================================
 # 5. K-means 分类器（K-means + 多数投票）
 # ============================================================
 class KMeansClassifier:
-    def __init__(self, n_clusters=3, random_state=42):
+    def __init__(self, n_clusters=3, random_state=68):
         self.n_clusters = n_clusters
         self.random_state = random_state
     def fit(self, X, y):
@@ -173,7 +179,7 @@ class KMeansClassifier:
         return np.array([self.cluster_to_class[c] for c in clusters])
 
 def run_kmeans(X, y, n_splits=5, n_repeats=10):
-    model = KMeansClassifier(n_clusters=3, random_state=42)
+    model = KMeansClassifier(n_clusters=3, random_state=68)
     return evaluate_model(X, y, model, n_splits, n_repeats)
 
 # ============================================================
@@ -184,8 +190,8 @@ def jieba_tokenizer(text):
 
 def run_tfidf_svm(texts, y, n_splits=5, n_repeats=10):
     pipeline = Pipeline([
-        ('tfidf', TfidfVectorizer(tokenizer=jieba_tokenizer, max_features=5000, ngram_range=(1,2))),
-        ('svm', LinearSVC(random_state=68, dual='auto'))
+        ('tfidf', TfidfVectorizer(tokenizer=jieba_tokenizer, token_pattern=None, max_features=5000, ngram_range=(1,2))),
+        ('svm', LinearSVC(random_state=68, dual=True))
     ])
     return evaluate_model(texts, y, pipeline, n_splits, n_repeats)
 
@@ -193,32 +199,15 @@ def run_tfidf_svm(texts, y, n_splits=5, n_repeats=10):
 # 7. Word2Vec (/GloVe) + SVM
 # ============================================================
 def run_w2v_svm(X_w2v, y, n_splits=5, n_repeats=10):
-    model = SVC(kernel='rbf', random_state=42)
+    model = SVC(kernel='rbf', random_state=68)
     return evaluate_model(X_w2v, y, model, n_splits, n_repeats)
 
 # ============================================================
 # 8. BERT (/tunned) + Logistic Regression
 # ============================================================
-# 假设已经提取好 X_bert 特征（n_samples, 768）
 def run_bert_lr(X_bert, y, n_splits=5, n_repeats=10):
-    model = LogisticRegression(max_iter=1000, random_state=42)
+    model = LogisticRegression(max_iter=1000, random_state=68)
     return evaluate_model(X_bert, y, model, n_splits, n_repeats)
-
-# 如果需要从头提取 BERT 特征，可以用以下代码：
-def extract_bert_features(texts, model_name='hfl/chinese-bert-wwm-ext', max_length=512):
-    from transformers import BertTokenizer, BertModel
-    import torch
-    tokenizer = BertTokenizer.from_pretrained(model_name)
-    bert = BertModel.from_pretrained(model_name)
-    bert.eval()
-    features = []
-    for text in texts:
-        inputs = tokenizer(text, return_tensors='pt', truncation=True, max_length=max_length)
-        with torch.no_grad():
-            outputs = bert(**inputs)
-        cls_embedding = outputs.last_hidden_state[:, 0, :].squeeze().numpy()
-        features.append(cls_embedding)
-    return np.array(features)
 
 # ============================================================
 # 9. LLM zero-shot 分类
@@ -267,25 +256,9 @@ def llm_zero_shot_predict(texts, call_llm_func):
 # ============================================================
 # 10. TransE (/R-GCN) 图嵌入 + KNN
 # ============================================================
-# 假设已经用 pykeen 或 dgl 训练好图嵌入，得到 X_kg (n_samples, dim)
-# 这里给出使用 pykeen 的简化示例，实际需要构建三元组。
-
 def run_kg_knn(X_kg, y, n_splits=5, n_repeats=10):
     model = KNeighborsClassifier(n_neighbors=7)
     return evaluate_model(X_kg, y, model, n_splits, n_repeats)
-
-# 如果需要从头训练 TransE：
-# from pykeen.pipeline import pipeline
-# result = pipeline(
-#     model='TransE',
-#     training=training_triples,
-#     testing=testing_triples,
-#     validation=validation_triples,
-#     model_kwargs=dict(embedding_dim=64),
-#     training_kwargs=dict(num_epochs=100),
-# )
-# entity_embeddings = result.model.entity_representations[0]().detach().numpy()
-# 然后根据项目节点索引取对应嵌入。
 
 # ============================================================
 # 11. 执行所有实验
