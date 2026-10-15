@@ -30,12 +30,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.stats import mode, wilcoxon
 from statsmodels.stats.contingency_tables import mcnemar
 import scipy.stats as st
-
-# 中文分词
 import jieba
 
 # ============================================================
-# 1. 数据占位符：请替换为你的真实数据
+# 1. Data Ready
 # ============================================================
 # 假设：
 # y: 形状 (n_samples,)，标签 0=government-led, 1=community-led, 2=mixed
