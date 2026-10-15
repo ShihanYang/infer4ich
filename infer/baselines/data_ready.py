@@ -1,4 +1,12 @@
-# ready data for baseline testing
+#  @file: data_ready.py
+#  @version：1.0.0
+#  @brief: Ready data for baseline testing
+#  @creation date: 2026.10.14
+#  @last modified date: 2026.10.15 
+#  @authors: S. Yang
+#  @copyright: ©2026 S. Yang. All rights reserved.
+#  @license: This program is licensed under the MIT license. 
+
 
 import numpy as np
 
