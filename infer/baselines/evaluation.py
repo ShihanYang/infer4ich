@@ -32,33 +32,39 @@ from statsmodels.stats.contingency_tables import mcnemar
 import scipy.stats as st
 import jieba
 
+from tool_ready import text_to_vector
+
+
+
 # ============================================================
 # 1. Data Ready
 # ============================================================
-# 假设：
-# y: 形状 (n_samples,)，标签 0=government-led, 1=community-led, 2=mixed
-# X_tuned: 本文方法微调后的特征向量 (n_samples, n_features)
-# X_untuned: 未微调特征向量
-# texts: 原始文本列表，长度 n_samples
 # X_w2v: Word2Vec/GloVe 平均向量 (n_samples, dim)
-# X_bert: 未微调 BERT [CLS] 向量 (n_samples, 768)
+# X_bert: BERT [CLS] 向量 (n_samples, 768)
 # X_kg: TransE/R-GCN 图嵌入 (n_samples, dim)
-# 另外需要 LLM zero-shot 的预测结果 llm_preds（长度 n_samples，或每个测试折单独调用）
+# LLM zero-shot 的预测结果 llm_preds（长度 n_samples，或每个测试折单独调用）
+data = pd.read_csv("data.csv", header=None, names=['id', 'ichname', 'description', 'label'])
+n_samples = data.shape[0]  # 188 samples
+n_features = 4   # The number of data samples is relatively small. To avoid the sparsity problem, the number of features should not be too large.
 
-# 示例：随机生成假数据，仅用于跑通流程
-np.random.seed(42)
-n_samples = 188
-n_features = 20
-X_tuned = np.random.randn(n_samples, n_features)
-X_untuned = np.random.randn(n_samples, n_features)
-y = np.array([0]*30 + [1]*113 + [2]*45)
-np.random.shuffle(y)
-texts = ["这是一个非物质文化遗产项目的描述。" for _ in range(n_samples)]
-X_w2v = np.random.randn(n_samples, 200)
+features_data = pd.read_csv(r"../assesmentdata+.csv")
+features_data.columns = features_data.columns.str.strip()
+X_tuned = features_data.iloc[:,[2,3,4,5]].values.astype(float)
+
+y = data['label'].values
+y = np.array([0 if i == 'A' else 1 if i == 'B' else 2 for i in y])
+# print(y)
+# print(np.array([0 if i == '政府主导' else 1 if i == '社区主导' else 2 for i in features_data['type'].values]))  # Check data consistency
+
+texts = data.ichname +' := '+ data.description  # description for each ich
+
+# Preparation of feature data for the baseline model
+X_w2v = [text_to_vector(texts, text) for text in texts]  # (188, 200)
+print(X_w2v[0].shape, X_w2v[0])
 X_bert = np.random.randn(n_samples, 768)
 X_kg = np.random.randn(n_samples, 64)
 
-# 平衡数据集索引：下采样 community-led (label=1) 到 37
+# Balanced dataset indexing: down-sample the community-led (label=1) class to 37 samples
 idx_gov = np.where(y == 0)[0]
 idx_com = np.where(y == 1)[0]
 idx_mix = np.where(y == 2)[0]
@@ -66,16 +72,21 @@ np.random.shuffle(idx_com)
 idx_com_balanced = idx_com[:37]
 idx_balanced = np.concatenate([idx_gov, idx_com_balanced, idx_mix])
 np.random.shuffle(idx_balanced)
+# print(len(idx_balanced), idx_balanced)   # 112 balanced samples
+
+# os.abort()
+
 
 # ============================================================
 # 2. 统一评估函数
 # ============================================================
-def evaluate_model(X, y, model, n_splits=5, n_repeats=10, random_state=42):
+def evaluate_model(X, y, model, n_splits=5, n_repeats=10, random_state=68):
     """
     使用 RepeatedStratifiedKFold 评估模型。
     X: 特征矩阵或文本列表（如果模型是 Pipeline 支持文本）
     y: 标签
     model: 实现 fit/predict 的分类器
+    n_splits: 交叉验证折数
     返回：字典，包含 accuracy, precision, recall, f1, weighted_f1 的均值和标准差
     """
     rskf = RepeatedStratifiedKFold(
@@ -174,35 +185,19 @@ def jieba_tokenizer(text):
 def run_tfidf_svm(texts, y, n_splits=5, n_repeats=10):
     pipeline = Pipeline([
         ('tfidf', TfidfVectorizer(tokenizer=jieba_tokenizer, max_features=5000, ngram_range=(1,2))),
-        ('svm', LinearSVC(random_state=42, dual='auto'))
+        ('svm', LinearSVC(random_state=68, dual='auto'))
     ])
-    # 注意：evaluate_model 需要支持 list 输入
     return evaluate_model(texts, y, pipeline, n_splits, n_repeats)
 
 # ============================================================
-# 7. Word2Vec / GloVe + SVM
+# 7. Word2Vec (/GloVe) + SVM
 # ============================================================
-# 假设已经加载了预训练词向量模型 w2v_model，支持 model[word] -> vector
-# 如果没有，可以用 gensim 加载：
-# from gensim.models import KeyedVectors
-# w2v_model = KeyedVectors.load_word2vec_format('path/to/vectors.bin', binary=True)
-
-def doc_vector(text, model, dim=200):
-    words = jieba.cut(text)
-    vecs = [model[w] for w in words if w in model]
-    if len(vecs) == 0:
-        return np.zeros(dim)
-    return np.mean(vecs, axis=0)
-
-def build_w2v_features(texts, model, dim=200):
-    return np.array([doc_vector(t, model, dim) for t in texts])
-
 def run_w2v_svm(X_w2v, y, n_splits=5, n_repeats=10):
     model = SVC(kernel='rbf', random_state=42)
     return evaluate_model(X_w2v, y, model, n_splits, n_repeats)
 
 # ============================================================
-# 8. 未微调 BERT + Logistic Regression
+# 8. BERT (/tunned) + Logistic Regression
 # ============================================================
 # 假设已经提取好 X_bert 特征（n_samples, 768）
 def run_bert_lr(X_bert, y, n_splits=5, n_repeats=10):
@@ -240,14 +235,14 @@ def llm_zero_shot_predict(texts, call_llm_func):
     preds = []
     for text in texts:
         prompt = f"""你是一个非物质文化遗产保护专家。请阅读以下项目描述，判断最适合的保护策略类型。
-类别：
-A. 政府主导
-B. 社区主导
-C. 混合型
-只输出 A、B 或 C。
+                    类别：
+                    A. 政府主导
+                    B. 社区主导
+                    C. 混合型
+                    只输出 A、B 或 C。
 
-项目描述：
-{text}
+                    项目描述：
+                    {text}
 """
         output = call_llm_func(prompt).strip().upper()
         # 简单解析，取第一个出现的 A/B/C
@@ -270,7 +265,7 @@ C. 混合型
 # acc = accuracy_score(y, llm_preds)
 
 # ============================================================
-# 10. TransE / R-GCN 图嵌入 + KNN
+# 10. TransE (/R-GCN) 图嵌入 + KNN
 # ============================================================
 # 假设已经用 pykeen 或 dgl 训练好图嵌入，得到 X_kg (n_samples, dim)
 # 这里给出使用 pykeen 的简化示例，实际需要构建三元组。
@@ -293,7 +288,7 @@ def run_kg_knn(X_kg, y, n_splits=5, n_repeats=10):
 # 然后根据项目节点索引取对应嵌入。
 
 # ============================================================
-# 11. 运行所有实验
+# 11. 执行所有实验
 # ============================================================
 if __name__ == '__main__':
     results = {}
@@ -303,24 +298,24 @@ if __name__ == '__main__':
     results['KNN_tuned'] = run_knn(X_tuned, y)
 
     # KNN (untuned)
-    print("Running KNN (untuned)...")
-    results['KNN_untuned'] = run_knn(X_untuned, y)
+    # print("Running KNN (untuned)...")
+    # results['KNN_untuned'] = run_knn(X_untuned, y)
 
-    # 决策树
-    print("Running Decision Tree...")
-    results['DecisionTree'] = run_decision_tree(X_tuned, y)
+    # # 决策树
+    # print("Running Decision Tree...")
+    # results['DecisionTree'] = run_decision_tree(X_tuned, y)
 
-    # K-means
-    print("Running K-means...")
-    results['KMeans'] = run_kmeans(X_tuned, y)
+    # # K-means
+    # print("Running K-means...")
+    # results['KMeans'] = run_kmeans(X_tuned, y)
 
     # TF-IDF + SVM
     print("Running TF-IDF + SVM...")
     results['TFIDF_SVM'] = run_tfidf_svm(texts, y)
 
-    # Word2Vec + SVM（假设 w2v_model 已加载）
-    # print("Running Word2Vec + SVM...")
-    # results['W2V_SVM'] = run_w2v_svm(X_w2v, y)
+    # Word2Vec + SVM
+    print("Running Word2Vec + SVM...")
+    results['W2V_SVM'] = run_w2v_svm(X_w2v, y)
 
     # BERT + LR
     print("Running BERT + LR...")
