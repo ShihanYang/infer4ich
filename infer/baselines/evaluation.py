@@ -4,7 +4,7 @@
 #  @brief: Experimental codes including Unified 5-fold cross-validation 
 #                                     & Multi-baseline comparison
 #  @creation date: 2026.10.02
-#  @last modified date: 2026.10.15 
+#  @last modified date: 2026.10.16 
 #  @authors: S. Yang
 #  @copyright: ©2026 S. Yang. All rights reserved.
 #  @license: This program is licensed under the MIT license. 
@@ -54,8 +54,7 @@ n_features = 5   # The number of samples is relatively small. To avoid the spars
 
 features_data = pd.read_csv(r"../assesmentdata+.csv")
 features_data.columns = features_data.columns.str.strip()
-X_tuned = features_data.iloc[:,[2,3,4,5,6]].values.astype(float)  # 第五列是similarity scores 是计算的逻辑得分，作为一个综合特征
-# print(X_tuned.shape)  # (188, 5)
+X_tuned = features_data.iloc[:,[2,3,4,5,6]].values.astype(float)  # (188, 5)
 
 y = data['label'].values
 y = np.array([0 if i == 'A' else 1 if i == 'B' else 2 for i in y])
@@ -65,16 +64,19 @@ texts = data.ichname +' := '+ data.description  # description for each ich
 # Preparation of feature data for the baseline model
 X_w2v = [text_to_vector(texts, text) for text in texts]  # (188, 200)
 X_bert = extract_bert_features(texts)  # (188, 768)
-
 X_kg = []
 triples_file = r"triples.tsv"
 entity_embeddings, relation_embeddings, index = get_kg_embedding(path = triples_file)
 for item in data.ichname:
-    print(item)
     vec = entity_embeddings[index[item]]
     X_kg.append(vec)
-X_kg = np.array(X_kg)
-print(X_kg.shape)  # (188, 64)
+X_kg = np.array(X_kg)  # (188, 200)
+
+# added simularity component (tuned) into baseline models
+# for ablation study, we can remove the tuned component
+X_w2v = np.concatenate((X_w2v, X_tuned), axis=1)  
+X_bert = np.concatenate((X_bert, X_tuned), axis=1)  
+X_kg = np.concatenate((X_kg, X_tuned), axis=1)  
 
 # Balanced dataset indexing: down-sample the community-led (label=1) class to 37 samples
 idx_gov = np.where(y == 0)[0]
@@ -148,7 +150,7 @@ def evaluate_model(X, y, model, n_splits=5, n_repeats=10, random_state=68):
 # ============================================================
 # 3. 本文方法：KNN (K=7)
 # ============================================================
-def run_knn(X, y, k=7, n_splits=3, n_repeats=5):
+def run_knn(X, y, k=7, n_splits=5, n_repeats=10):
     model = KNeighborsClassifier(n_neighbors=k, metric="minkowski")  # metric='euclidean')
     return evaluate_model(X, y, model, n_splits, n_repeats)
 
@@ -296,14 +298,28 @@ if __name__ == '__main__':
     results['KG_KNN'] = run_kg_knn(X_kg, y)
 
     # LLM zero-shot
-    llm_preds = llm_zero_shot_predict(texts, call_llm_func)
-    results['LLM_zero_shot'] = {'accuracy_mean': accuracy_score(y, llm_preds),
-                                'accuracy_std':np.std(accuracy_score(y, llm_preds)),
-                                'f1_mean': f1_score(y, llm_preds, average='macro'),
-                                'f1_std':np.std(f1_score(y, llm_preds, average='macro')),
-                                'weighted_f1_mean': f1_score(y, llm_preds, average='weighted'),
-                                'weighted_f1_std':np.std(f1_score(y, llm_preds, average='weighted')),}
-
+    # llm_preds = llm_zero_shot_predict(texts, call_llm_func)  # using your API-key
+    llm_preds = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 
+        2, 2, 2, 2, 1, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 
+        1, 2, 0, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 
+        2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 
+        2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 0, 2, 
+        2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 
+        0, 2, 0, 0, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 1, 0, 2, 2, 0, 2, 0, 2, 0, 0, 
+        2, 2, 2, 0, 2, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2, 2, 0, 2, 2, 2, 2, 1, 2, 
+        0, 2, 2, 2, 2]
+    results['LLM_zero_shot'] = {
+        'accuracy_mean': accuracy_score(y, llm_preds),
+        'accuracy_std': np.std(accuracy_score(y, llm_preds)),
+        'f1_mean': f1_score(y, llm_preds, average='macro'),
+        'f1_std': np.std(f1_score(y, llm_preds, average='macro')),
+        'weighted_f1_mean': f1_score(y, llm_preds, average='weighted'),
+        'weighted_f1_std': np.std(f1_score(y, llm_preds, average='weighted')),
+        'accs': len(results['KNN_tuned']['accs'])*[accuracy_score(y, llm_preds)],
+        'all_y_true': y,
+        'all_y_pred': llm_preds
+    }
+    
     # 汇总结果
     df_results = pd.DataFrame({
         name: {
@@ -366,22 +382,81 @@ if __name__ == '__main__':
     
     
 
-'''
+''' results without conditional simularity component
+LLM zero-shot predictions: [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 
+2, 2, 2, 2, 1, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 
+1, 2, 0, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 
+2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 
+2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 0, 2, 
+2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 
+0, 2, 0, 0, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 1, 0, 2, 2, 0, 2, 0, 2, 0, 0, 
+2, 2, 2, 0, 2, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2, 2, 0, 2, 2, 2, 2, 1, 2, 
+0, 2, 2, 2, 2]
+
 === 统一 5 折交叉验证结果 ===
-                  Accuracy         Macro-F1      Weighted-F1
-KNN_tuned  0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
-TFIDF_SVM  0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
-W2V_SVM    0.6015 ± 0.0059  0.2517 ± 0.0098  0.4524 ± 0.0092
-BERT_LR    0.6467 ± 0.0646  0.5065 ± 0.0838  0.6257 ± 0.0636
-KG_KNN     0.9494 ± 0.0310  0.9238 ± 0.0483  0.9476 ± 0.0326
+                      Accuracy         Macro-F1      Weighted-F1
+KNN_tuned      0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
+TFIDF_SVM      0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
+W2V_SVM        0.6015 ± 0.0059  0.2517 ± 0.0098  0.4524 ± 0.0092
+BERT_LR        0.6467 ± 0.0646  0.5065 ± 0.0838  0.6257 ± 0.0636
+KG_KNN         0.9494 ± 0.0310  0.9238 ± 0.0483  0.9476 ± 0.0326
+LLM_zero_shot  0.2447 ± 0.0000  0.2280 ± 0.0000  0.1746 ± 0.0000
 
+=== 统计检验(vs. KNN_tuned) ===
+TFIDF_SVM: Wilcoxon p = 7.4146124446461e-10
+TFIDF_SVM: McNemar p = 5.760437365503017e-56
+W2V_SVM: Wilcoxon p = 7.179495585616791e-10
+W2V_SVM: McNemar p = 1.692933117856781e-80
+BERT_LR: Wilcoxon p = 7.460092387491276e-10
+BERT_LR: McNemar p = 2.001929260640509e-59
+KG_KNN: Wilcoxon p = 2.5508920806132378e-08
+KG_KNN: McNemar p = 8.183490134475067e-15
+LLM_zero_shot: Wilcoxon p = 7.155054709308456e-10
 
-=== 95% 置信区间（Accuracy） ===
-KNN_tuned: 0.8787 [0.8655, 0.8919]
+=== 95% 置信区间(Accuracy) ===
+KNN_tuned: 0.8787 [0.8629, 0.8944]
 TFIDF_SVM: 0.6563 [0.6428, 0.6697]
 W2V_SVM: 0.6015 [0.5998, 0.6032]
 BERT_LR: 0.6467 [0.6282, 0.6653]
 KG_KNN: 0.9494 [0.9405, 0.9583]
+LLM_zero_shot: 0.2447 [0.2447, 0.2447]
+
+=== KNN_tuned 混淆矩阵 ===
+[[ 207   72   21]
+ [  33 1016   81]
+ [  11   10  429]]
+'''
+
+# ==============================================================
+
+''' results without conditional simularity component
+=== 统一 5 折交叉验证结果 ===
+                      Accuracy         Macro-F1      Weighted-F1
+KNN_tuned      0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
+TFIDF_SVM      0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
+W2V_SVM        0.8723 ± 0.0460  0.8358 ± 0.0681  0.8708 ± 0.0481
+BERT_LR        0.7679 ± 0.0628  0.6791 ± 0.0966  0.7575 ± 0.0680
+KG_KNN         0.9697 ± 0.0305  0.9486 ± 0.0540  0.9677 ± 0.0342
+LLM_zero_shot  0.2447 ± 0.0000  0.2280 ± 0.0000  0.1746 ± 0.0000
+
+=== 统计检验(vs. KNN_tuned) ===
+TFIDF_SVM: Wilcoxon p = 7.4146124446461e-10
+TFIDF_SVM: McNemar p = 5.760437365503017e-56
+W2V_SVM: Wilcoxon p = 0.00302700338129744
+W2V_SVM: McNemar p = 0.0032834609860690426
+BERT_LR: Wilcoxon p = 1.2340580488989883e-09
+BERT_LR: McNemar p = 3.2792327789657946e-26
+KG_KNN: Wilcoxon p = 7.187659197135014e-10
+KG_KNN: McNemar p = 1.3368286301932979e-36
+LLM_zero_shot: Wilcoxon p = 7.155054709308456e-10
+
+=== 95% 置信区间(Accuracy) ===
+KNN_tuned: 0.8787 [0.8655, 0.8919]
+TFIDF_SVM: 0.6563 [0.6428, 0.6697]
+W2V_SVM: 0.8723 [0.8591, 0.8855]
+BERT_LR: 0.7679 [0.7499, 0.7860]
+KG_KNN: 0.9697 [0.9610, 0.9784]
+LLM_zero_shot: 0.2447 [nan, nan]
 
 === KNN_tuned 混淆矩阵 ===
 [[ 207   72   21]

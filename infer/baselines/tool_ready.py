@@ -173,7 +173,6 @@ def get_kg_embedding(path):
     model = result.model
     # 获取嵌入向量
     entity_embeddings = model.entity_representations[0]().detach().numpy()
-    print(f"实体嵌入维度：{entity_embeddings.shape}")
     relation_embeddings = model.relation_representations[0]().detach().numpy()
     # 获取实体到ID的映射字典：实体名 -> 嵌入索引
     entity_to_id = training.entity_to_id
@@ -200,7 +199,7 @@ def get_kg_embedding(path):
 from openai import OpenAI
 def call_llm_func(prompt):
     client = OpenAI(
-        api_key="sk-fd28225295964cf3a8666370f6670010", 
+        api_key="sk-*********************",  
         base_url="https://api.deepseek.com"
     )
     response = client.chat.completions.create(
@@ -224,14 +223,14 @@ def call_llm_func(prompt):
 if __name__ == "__main__":
     text = """一得阁墨汁制作技艺是北京市级非物质文化遗产，位于北京市东城区东华门内大街，由一得阁墨汁制作技艺传承人王文杰传授。"""
     prompt= f"""你是一个非物质文化遗产保护专家。请阅读以下项目描述，判断最适合的保护策略类型。
-                    类别：
-                    A. 政府主导
-                    B. 社区主导
-                    C. 混合型
-                    只输出 A、B 或 C。
+                类别：
+                A. 政府主导
+                B. 社区主导
+                C. 混合型
+                只输出 A、B 或 C。
 
-                    项目描述：
-                    {text}
+                项目描述：
+                {text}
     """
     answer = call_llm_func(prompt)
     print(answer)
