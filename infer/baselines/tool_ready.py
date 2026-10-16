@@ -150,7 +150,7 @@ def get_kg_embedding(path):
     import torch
     # 加载自定义三元组
     tf = TriplesFactory.from_path(
-        path=path,  # triples_file = r"triples.tsv"
+        path=path,  
         delimiter="\t",
         encoding="utf-8",
         create_inverse_triples=True,  # 自动添加反向关系，提升效果
@@ -193,8 +193,53 @@ def get_kg_embedding(path):
     return entity_embeddings, relation_embeddings, entity_to_id
 
 
+
+# ============================================================
+# LLM Zero Shot - list of answers
+# ============================================================
+from openai import OpenAI
+def call_llm_func(prompt):
+    client = OpenAI(
+        api_key="sk-fd28225295964cf3a8666370f6670010", 
+        base_url="https://api.deepseek.com"
+    )
+    response = client.chat.completions.create(
+        model="deepseek-flash",
+        messages=[
+            {"role": "system", "content": "你是一个非物质文化遗产保护专家。"},
+            {"role": "user", "content": prompt},
+        ],
+        stream=False,
+        reasoning_effort="high",
+        extra_body={"thinking": {"type": "enabled"}}
+    )
+    return response.choices[0].message.content
+
+
+
+
+# ============================================================
+# testing anytime
+# ============================================================
 if __name__ == "__main__":
-    entity_embeddings, _, entity_to_id = get_kg_embedding()
+    text = """一得阁墨汁制作技艺是北京市级非物质文化遗产，位于北京市东城区东华门内大街，由一得阁墨汁制作技艺传承人王文杰传授。"""
+    prompt= f"""你是一个非物质文化遗产保护专家。请阅读以下项目描述，判断最适合的保护策略类型。
+                    类别：
+                    A. 政府主导
+                    B. 社区主导
+                    C. 混合型
+                    只输出 A、B 或 C。
+
+                    项目描述：
+                    {text}
+    """
+    answer = call_llm_func(prompt)
+    print(answer)
+
+
+if __name__ == "__main_1__":
+    triples_file = r"triples.tsv"
+    entity_embeddings, _, entity_to_id = get_kg_embedding(triples_file)
     ai_vec = entity_embeddings[entity_to_id["一得阁墨汁制作技艺"]]
     print(f"实体'一得阁墨汁制作技艺'的嵌入维度：{ai_vec.shape}")  
     ai_vec = entity_embeddings[entity_to_id["社区主导"]]

@@ -35,7 +35,8 @@ import jieba
 from tool_ready import ( 
     text_to_vector,
     extract_bert_features,
-    get_kg_embedding    
+    get_kg_embedding,
+    call_llm_func,
 )
 
 
@@ -49,16 +50,15 @@ from tool_ready import (
 # LLM zero-shot 的预测结果 llm_preds（长度 n_samples，或每个测试折单独调用）
 data = pd.read_csv("data.csv", header=None, names=['id', 'ichname', 'description', 'label'])
 n_samples = data.shape[0]  # 188 samples
-n_features = 4   # The number of data samples is relatively small. To avoid the sparsity problem, the number of features should not be too large.
+n_features = 5   # The number of samples is relatively small. To avoid the sparsity problem, the number of features should not be too large.
 
 features_data = pd.read_csv(r"../assesmentdata+.csv")
 features_data.columns = features_data.columns.str.strip()
-X_tuned = features_data.iloc[:,[2,3,4,5]].values.astype(float)
+X_tuned = features_data.iloc[:,[2,3,4,5,6]].values.astype(float)  # 第五列是similarity scores 是计算的逻辑得分，作为一个综合特征
+# print(X_tuned.shape)  # (188, 5)
 
 y = data['label'].values
 y = np.array([0 if i == 'A' else 1 if i == 'B' else 2 for i in y])
-# print(y)
-# print(np.array([0 if i == '政府主导' else 1 if i == '社区主导' else 2 for i in features_data['type'].values]))  # Check data consistency
 
 texts = data.ichname +' := '+ data.description  # description for each ich
 
@@ -66,9 +66,16 @@ texts = data.ichname +' := '+ data.description  # description for each ich
 X_w2v = [text_to_vector(texts, text) for text in texts]  # (188, 200)
 X_bert = extract_bert_features(texts)  # (188, 768)
 
+X_kg = []
 triples_file = r"triples.tsv"
 entity_embeddings, relation_embeddings, index = get_kg_embedding(path = triples_file)
-X_kg = np.random.randn(n_samples, 64)
+for item in data.ichname:
+    print(item)
+    vec = entity_embeddings[index[item]]
+    X_kg.append(vec)
+X_kg = np.array(X_kg)
+print(X_kg.shape)  # (188, 64)
+# X_kg = np.random.randn(n_samples, 64)  # 生成随机数据作为示例和快速测试
 
 # Balanced dataset indexing: down-sample the community-led (label=1) class to 37 samples
 idx_gov = np.where(y == 0)[0]
@@ -80,7 +87,7 @@ idx_balanced = np.concatenate([idx_gov, idx_com_balanced, idx_mix])
 np.random.shuffle(idx_balanced)
 # print(len(idx_balanced), idx_balanced)   # 112 balanced samples
 
-# os.abort()
+# os.abort()  # 快速测试
 
 
 # ============================================================
@@ -144,8 +151,8 @@ def evaluate_model(X, y, model, n_splits=5, n_repeats=10, random_state=68):
 # ============================================================
 # 3. 本文方法：KNN (K=7)
 # ============================================================
-def run_knn(X, y, k=7, n_splits=5, n_repeats=10):
-    model = KNeighborsClassifier(n_neighbors=k, metric='euclidean')
+def run_knn(X, y, k=7, n_splits=3, n_repeats=5):
+    model = KNeighborsClassifier(n_neighbors=k, metric="minkowski")  # metric='euclidean')
     return evaluate_model(X, y, model, n_splits, n_repeats)
 
 # ============================================================
@@ -212,9 +219,6 @@ def run_bert_lr(X_bert, y, n_splits=5, n_repeats=10):
 # ============================================================
 # 9. LLM zero-shot 分类
 # ============================================================
-# 由于需要调用外部 API，这里给出函数框架。
-# 你需要实现 call_llm(prompt) 函数，返回模型输出文本。
-
 def llm_zero_shot_predict(texts, call_llm_func):
     """
     对每个文本调用 LLM，返回预测标签数组。
@@ -232,7 +236,7 @@ def llm_zero_shot_predict(texts, call_llm_func):
 
                     项目描述：
                     {text}
-"""
+        """
         output = call_llm_func(prompt).strip().upper()
         # 简单解析，取第一个出现的 A/B/C
         pred = None
@@ -245,20 +249,14 @@ def llm_zero_shot_predict(texts, call_llm_func):
         preds.append(pred)
     return np.array(preds)
 
-# 使用示例：
-# def call_llm(prompt):
-#     # 调用 DeepSeek/GPT API
-#     return "A"
-# llm_preds = llm_zero_shot_predict(texts, call_llm)
-# 由于 zero-shot 无训练，可以直接计算准确率：
-# acc = accuracy_score(y, llm_preds)
-
 # ============================================================
 # 10. TransE (/R-GCN) 图嵌入 + KNN
 # ============================================================
 def run_kg_knn(X_kg, y, n_splits=5, n_repeats=10):
     model = KNeighborsClassifier(n_neighbors=7)
     return evaluate_model(X_kg, y, model, n_splits, n_repeats)
+
+
 
 # ============================================================
 # 11. 执行所有实验
@@ -294,13 +292,13 @@ if __name__ == '__main__':
     print("Running BERT + LR...")
     results['BERT_LR'] = run_bert_lr(X_bert, y)
 
-    # KG + KNN
+    # # KG + KNN
     print("Running KG + KNN...")
     results['KG_KNN'] = run_kg_knn(X_kg, y)
 
-    # LLM zero-shot（需要 API）
-    # llm_preds = llm_zero_shot_predict(texts, call_llm)
-    # results['LLM_zero_shot'] = {'accuracy_mean': accuracy_score(y, llm_preds)}
+    # LLM zero-shot
+    llm_preds = llm_zero_shot_predict(texts, call_llm_func)
+    results['LLM_zero_shot'] = {'accuracy_mean': accuracy_score(y, llm_preds)}
 
     # 汇总结果
     df_results = pd.DataFrame({
@@ -323,14 +321,14 @@ if __name__ == '__main__':
     baseline_true = baseline['all_y_true']
     baseline_pred = baseline['all_y_pred']
 
-    print("\n=== 统计检验（vs. KNN_tuned） ===")
+    print("\n=== 统计检验(vs. KNN_tuned) ===")
     for name, res in results.items():
         if name == 'KNN_tuned':
             continue
         # Wilcoxon signed-rank 检验：比较 10 次重复的准确率
         if len(res['accs']) == len(baseline_accs):
             stat, p = wilcoxon(baseline_accs, res['accs'])
-            print(f"{name}: Wilcoxon p = {p:.4f}")
+            print(f"{name}: Wilcoxon p = {p}")
         # McNemar 检验：基于所有测试折合并的预测
         # 构建 2x2 表
         # 注意：需要对齐样本顺序，这里假设 evaluate_model 返回的 all_y_true 顺序一致
@@ -343,12 +341,12 @@ if __name__ == '__main__':
             # 确保 2x2
             if table.shape == (2, 2):
                 result = mcnemar(table.values, exact=False, correction=True)
-                print(f"{name}: McNemar p = {result.pvalue:.4f}")
+                print(f"{name}: McNemar p = {result.pvalue}")
 
     # ============================================================
     # 13. 置信区间（bootstrap 或 t 分布）
     # ============================================================
-    print("\n=== 95% 置信区间（Accuracy） ===")
+    print("\n=== 95% 置信区间(Accuracy) ===")
     for name, res in results.items():
         accs = res['accs']
         ci = st.t.interval(0.95, len(accs)-1, loc=np.mean(accs), scale=st.sem(accs))
@@ -361,3 +359,37 @@ if __name__ == '__main__':
     cm = confusion_matrix(baseline_true, baseline_pred)
     print("\n=== KNN_tuned 混淆矩阵 ===")
     print(cm)
+    
+    
+
+'''
+=== 统一 5 折交叉验证结果 ===
+                  Accuracy         Macro-F1      Weighted-F1
+KNN_tuned  0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
+TFIDF_SVM  0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
+W2V_SVM    0.6015 ± 0.0059  0.2517 ± 0.0098  0.4524 ± 0.0092
+BERT_LR    0.6467 ± 0.0646  0.5065 ± 0.0838  0.6257 ± 0.0636
+KG_KNN     0.9494 ± 0.0310  0.9238 ± 0.0483  0.9476 ± 0.0326
+
+=== 统计检验（vs. KNN_tuned） ===
+TFIDF_SVM: Wilcoxon p = 0.0000
+TFIDF_SVM: McNemar p = 0.0000
+W2V_SVM: Wilcoxon p = 0.0000
+W2V_SVM: McNemar p = 0.0000
+BERT_LR: Wilcoxon p = 0.0000
+BERT_LR: McNemar p = 0.0000
+KG_KNN: Wilcoxon p = 0.0000
+KG_KNN: McNemar p = 0.0000
+
+=== 95% 置信区间（Accuracy） ===
+KNN_tuned: 0.8787 [0.8655, 0.8919]
+TFIDF_SVM: 0.6563 [0.6428, 0.6697]
+W2V_SVM: 0.6015 [0.5998, 0.6032]
+BERT_LR: 0.6467 [0.6282, 0.6653]
+KG_KNN: 0.9494 [0.9405, 0.9583]
+
+=== KNN_tuned 混淆矩阵 ===
+[[ 207   72   21]
+ [  33 1016   81]
+ [  11   10  429]]
+'''
