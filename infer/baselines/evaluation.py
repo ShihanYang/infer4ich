@@ -18,7 +18,7 @@ from collections import Counter
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.metrics import (
     accuracy_score, precision_recall_fscore_support,
-    confusion_matrix
+    confusion_matrix, f1_score,
 )
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -75,7 +75,6 @@ for item in data.ichname:
     X_kg.append(vec)
 X_kg = np.array(X_kg)
 print(X_kg.shape)  # (188, 64)
-# X_kg = np.random.randn(n_samples, 64)  # 生成随机数据作为示例和快速测试
 
 # Balanced dataset indexing: down-sample the community-led (label=1) class to 37 samples
 idx_gov = np.where(y == 0)[0]
@@ -86,8 +85,6 @@ idx_com_balanced = idx_com[:37]
 idx_balanced = np.concatenate([idx_gov, idx_com_balanced, idx_mix])
 np.random.shuffle(idx_balanced)
 # print(len(idx_balanced), idx_balanced)   # 112 balanced samples
-
-# os.abort()  # 快速测试
 
 
 # ============================================================
@@ -221,12 +218,13 @@ def run_bert_lr(X_bert, y, n_splits=5, n_repeats=10):
 # ============================================================
 def llm_zero_shot_predict(texts, call_llm_func):
     """
-    对每个文本调用 LLM，返回预测标签数组。
+    对每个文本调用 LLM, 返回预测标签数组。
     假设 LLM 输出 'A', 'B', 'C'，分别映射到 0, 1, 2。
+    Note: Given the RMB cost implications, please execute this function with caution.
     """
     label_map = {'A': 0, 'B': 1, 'C': 2}
     preds = []
-    for text in texts:
+    for text in texts:  # it is basically one Chinese cent per query！
         prompt = f"""你是一个非物质文化遗产保护专家。请阅读以下项目描述，判断最适合的保护策略类型。
                     类别：
                     A. 政府主导
@@ -247,6 +245,7 @@ def llm_zero_shot_predict(texts, call_llm_func):
         if pred is None:
             pred = 1  # 默认社区主导
         preds.append(pred)
+    print("LLM zero-shot predictions:", preds)
     return np.array(preds)
 
 # ============================================================
@@ -298,7 +297,12 @@ if __name__ == '__main__':
 
     # LLM zero-shot
     llm_preds = llm_zero_shot_predict(texts, call_llm_func)
-    results['LLM_zero_shot'] = {'accuracy_mean': accuracy_score(y, llm_preds)}
+    results['LLM_zero_shot'] = {'accuracy_mean': accuracy_score(y, llm_preds),
+                                'accuracy_std':np.std(accuracy_score(y, llm_preds)),
+                                'f1_mean': f1_score(y, llm_preds, average='macro'),
+                                'f1_std':np.std(f1_score(y, llm_preds, average='macro')),
+                                'weighted_f1_mean': f1_score(y, llm_preds, average='weighted'),
+                                'weighted_f1_std':np.std(f1_score(y, llm_preds, average='weighted')),}
 
     # 汇总结果
     df_results = pd.DataFrame({
@@ -371,15 +375,6 @@ W2V_SVM    0.6015 ± 0.0059  0.2517 ± 0.0098  0.4524 ± 0.0092
 BERT_LR    0.6467 ± 0.0646  0.5065 ± 0.0838  0.6257 ± 0.0636
 KG_KNN     0.9494 ± 0.0310  0.9238 ± 0.0483  0.9476 ± 0.0326
 
-=== 统计检验（vs. KNN_tuned） ===
-TFIDF_SVM: Wilcoxon p = 0.0000
-TFIDF_SVM: McNemar p = 0.0000
-W2V_SVM: Wilcoxon p = 0.0000
-W2V_SVM: McNemar p = 0.0000
-BERT_LR: Wilcoxon p = 0.0000
-BERT_LR: McNemar p = 0.0000
-KG_KNN: Wilcoxon p = 0.0000
-KG_KNN: McNemar p = 0.0000
 
 === 95% 置信区间（Accuracy） ===
 KNN_tuned: 0.8787 [0.8655, 0.8919]
