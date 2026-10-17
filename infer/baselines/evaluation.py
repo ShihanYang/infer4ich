@@ -201,6 +201,45 @@ def run_tfidf_svm(texts, y, n_splits=5, n_repeats=10):
     ])
     return evaluate_model(texts, y, pipeline, n_splits, n_repeats)
 
+def run_tfidf_svm_with_tuned_features(texts, X_tuned, y, n_splits=5, n_repeats=10):
+    from sklearn.model_selection import RepeatedKFold
+    from scipy.sparse import hstack, vstack, csr_matrix
+    from sklearn.decomposition import TruncatedSVD
+    X = []
+    y_shuffle = []
+    rkf = RepeatedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=68)
+    vectorizer = TfidfVectorizer(
+        tokenizer=jieba_tokenizer, 
+        token_pattern=None, 
+        max_features=3000, 
+        ngram_range=(1,2)
+    )
+    svd = TruncatedSVD(n_components=16, algorithm='arpack', random_state=68)
+    for train_index, test_index in rkf.split(texts):
+        train_texts = [texts[i] for i in train_index]
+        test_texts = [texts[i] for i in test_index]
+        y_train, y_test = y[train_index], y[test_index]
+        X_tuned_train = X_tuned[train_index]
+        X_tuned_test = X_tuned[test_index]
+        
+        X_train_tfidf = vectorizer.fit_transform(train_texts)
+        if not isinstance(X_tuned_train, csr_matrix):
+            X_tuned_train = csr_matrix(X_tuned_train)
+        X1_reduced = svd.fit_transform(X_train_tfidf)
+        X1 = hstack([X_tuned_train, X1_reduced])
+        
+        X_test_tfidf = vectorizer.transform(test_texts)
+        if not isinstance(X_tuned_test, csr_matrix):
+            X_tuned_test = csr_matrix(X_tuned_test)
+        X2_reduced = svd.fit_transform(X_test_tfidf)
+        X2 = hstack([X_tuned_test, X2_reduced])
+        
+        X = vstack([X1, X2]).toarray()
+        y_shuffle = np.concatenate([y_train, y_test])
+    model = LinearSVC(random_state=68, dual=True)
+    return evaluate_model(X, y_shuffle, model, n_splits, n_repeats)
+    
+    
 # ============================================================
 # 7. Word2Vec (/GloVe) + SVM
 # ============================================================
@@ -279,7 +318,8 @@ if __name__ == '__main__':
 
     # TF-IDF + SVM
     print("Running TF-IDF + SVM...")
-    results['TFIDF_SVM'] = run_tfidf_svm(texts, y)
+    # results['TFIDF_SVM'] = run_tfidf_svm(texts, y)
+    results['TFIDF_SVM_tuned'] = run_tfidf_svm_with_tuned_features(texts, X_tuned, y)
 
     # Word2Vec + SVM
     print("Running Word2Vec + SVM...")
@@ -294,16 +334,7 @@ if __name__ == '__main__':
     results['KG_KNN'] = run_kg_knn(X_kg, y)
 
     # LLM zero-shot
-    llm_preds = llm_zero_shot_predict(texts, call_llm_func)  # using your API-key
-    # llm_preds = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 
-        # 2, 2, 2, 2, 1, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 
-        # 1, 2, 0, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 
-        # 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 
-        # 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 0, 2, 
-        # 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 
-        # 0, 2, 0, 0, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 1, 0, 2, 2, 0, 2, 0, 2, 0, 0, 
-        # 2, 2, 2, 0, 2, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2, 2, 0, 2, 2, 2, 2, 1, 2, 
-        # 0, 2, 2, 2, 2]
+    llm_preds = llm_zero_shot_predict(texts, call_llm_func)  # using your LLM API-key in the call_llm_func function
     results['LLM_zero_shot'] = {
         'accuracy_mean': accuracy_score(y, llm_preds),
         'accuracy_std': np.std(accuracy_score(y, llm_preds)),
@@ -316,7 +347,9 @@ if __name__ == '__main__':
         'all_y_pred': llm_preds
     }
     
+    # --------------------------
     # 汇总结果
+    # --------------------------
     df_results = pd.DataFrame({
         name: {
             'Accuracy': f"{res['accuracy_mean']:.4f} ± {res['accuracy_std']:.4f}",
@@ -429,15 +462,15 @@ LLM_zero_shot: 0.2447 [0.2447, 0.2447]
 ==== 统一 5 折交叉验证结果 ====
                       Accuracy         Macro-F1      Weighted-F1
 KNN_tuned      0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
-TFIDF_SVM      0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
+TFIDF_SVM_tuned  0.8022 ± 0.0465  0.7193 ± 0.0688  0.7910 ± 0.0511
 W2V_SVM        0.8723 ± 0.0460  0.8358 ± 0.0681  0.8708 ± 0.0481
 BERT_LR        0.7679 ± 0.0628  0.6791 ± 0.0966  0.7575 ± 0.0680
 KG_KNN         0.9697 ± 0.0305  0.9486 ± 0.0540  0.9677 ± 0.0342
 LLM_zero_shot  0.2447 ± 0.0000  0.2280 ± 0.0000  0.1746 ± 0.0000
 
 ==== 统计检验(vs. KNN_tuned) ====
-TFIDF_SVM: Wilcoxon p = 7.4146124446461e-10
-TFIDF_SVM: McNemar p = 5.760437365503017e-56
+TFIDF_SVM_tuned: Wilcoxon p = 4.3912351313468404e-08
+TFIDF_SVM_tuned: McNemar p = 7.343353533200824e-11
 W2V_SVM: Wilcoxon p = 0.00302700338129744
 W2V_SVM: McNemar p = 0.0032834609860690426
 BERT_LR: Wilcoxon p = 1.2340580488989883e-09
@@ -448,7 +481,7 @@ LLM_zero_shot: Wilcoxon p = 7.155054709308456e-10
 
 ==== 95% 置信区间(Accuracy) ====
 KNN_tuned: 0.8787 [0.8655, 0.8919]
-TFIDF_SVM: 0.6563 [0.6428, 0.6697]
+TFIDF_SVM_tuned: 0.8022 [0.7889, 0.8155]
 W2V_SVM: 0.8723 [0.8591, 0.8855]
 BERT_LR: 0.7679 [0.7499, 0.7860]
 KG_KNN: 0.9697 [0.9610, 0.9784]
