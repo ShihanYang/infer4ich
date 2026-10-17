@@ -37,7 +37,6 @@ def load_w2v_model():
 # 初始化全局模型
 w2v_model = load_w2v_model()
 VECTOR_DIM = w2v_model.vector_size
-
 class DocVectorizer:
     def __init__(self, w2v_model, max_features=50000):
         self.w2v_model = w2v_model
