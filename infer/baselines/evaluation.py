@@ -32,7 +32,7 @@ from statsmodels.stats.contingency_tables import mcnemar
 import scipy.stats as st
 import jieba
 
-from tool_ready import ( 
+from ready_kit import ( 
     text_to_vector,
     extract_bert_features,
     get_kg_embedding,
@@ -44,10 +44,12 @@ from tool_ready import (
 # ============================================================
 # 1. Data Ready
 # ============================================================
-# X_w2v: Word2Vec/GloVe 平均向量 (n_samples, dim)
-# X_bert: BERT [CLS] 向量 (n_samples, 768)
-# X_kg: TransE/R-GCN 图嵌入 (n_samples, dim)
-# LLM zero-shot 的预测结果 llm_preds（长度 n_samples，或每个测试折单独调用）
+# texts: ichname + description (n_samples, ) of each ICH
+# X_w2v: Word2Vec/GloVe embedding (n_samples, dim)
+# X_bert: BERT embedding (n_samples, 768)
+# X_kg: TransE/R-GCN knowledge graph embedding (n_samples, dim)
+# X_tuned: tuned component with conditional similarity computation (n_samples, n_features)
+# y: label (n_samples, )
 data = pd.read_csv("data.csv", header=None, names=['id', 'ichname', 'description', 'label'])
 n_samples = data.shape[0]  # 188 samples
 n_features = 5   # The number of samples is relatively small. To avoid the sparsity problem, the number of features should not be too large.
@@ -277,7 +279,7 @@ def llm_zero_shot_predict(texts, call_llm_func):
                     {text}
         """
         output = call_llm_func(prompt).strip().upper()
-        # 简单解析，取第一个出现的 A/B/C
+        # 解析结果，取出 A/B/C
         pred = None
         for ch in output:
             if ch in label_map:
