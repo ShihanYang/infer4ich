@@ -105,7 +105,7 @@ class DocVectorizer:
             return final_vec / norm
         return final_vec
 
-# 访问接口
+# Data Accessing API
 def text_to_vector(corpus, text, model=w2v_model, vector_size=128):
     # 1. 准备一批业务语料用于拟合 TF-IDF (IDF 统计需要全局视角)
     train_corpus = corpus
@@ -122,6 +122,7 @@ def text_to_vector(corpus, text, model=w2v_model, vector_size=128):
 # BERT - embedding X_bert
 # ============================================================
 bert_model_name = r"chinese-bert-wwm-ext"
+# Data Accessing API
 def extract_bert_features(texts, model_name=bert_model_name, max_length=512):
     from transformers.models.bert import BertTokenizer, BertModel
     import torch
@@ -144,6 +145,7 @@ def extract_bert_features(texts, model_name=bert_model_name, max_length=512):
 # ============================================================
 # PyKEEN 是知识图谱嵌入（KGE，如 TransE/RotatE/ComplEX）的专用工具；
 # DGL 是通用图神经网络框架，灵活度高，适合训练 R-GCN/GAT 等融合拓扑结构的深度图嵌入‌。
+# Data Accessing API
 def get_kg_embedding(path):
     from pykeen.pipeline import pipeline
     from pykeen.triples import TriplesFactory
@@ -196,8 +198,9 @@ def get_kg_embedding(path):
 # ============================================================
 # LLM Zero Shot - list of answers
 # ============================================================
-from openai import OpenAI
+# Data Accessing API
 def call_llm_func(prompt):
+    from openai import OpenAI
     client = OpenAI(
         api_key="sk-*********************",  
         base_url="https://api.deepseek.com"

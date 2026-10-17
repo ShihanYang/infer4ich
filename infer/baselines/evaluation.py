@@ -148,7 +148,7 @@ def evaluate_model(X, y, model, n_splits=5, n_repeats=10, random_state=68):
 
 
 # ============================================================
-# 3. 本文方法：KNN (K=7)
+# 3. KNN (K=7)
 # ============================================================
 def run_knn(X, y, k=7, n_splits=5, n_repeats=10):
     model = KNeighborsClassifier(n_neighbors=k, metric="minkowski")  # metric='euclidean')
@@ -231,7 +231,7 @@ def llm_zero_shot_predict(texts, call_llm_func):
                     类别：
                     A. 政府主导
                     B. 社区主导
-                    C. 混合型
+                    C. 其他类型
                     只输出 A、B 或 C。
 
                     项目描述：
@@ -265,19 +265,15 @@ def run_kg_knn(X_kg, y, n_splits=5, n_repeats=10):
 if __name__ == '__main__':
     results = {}
 
-    # 本文方法：KNN (tuned)
+    # KNN (tuned)
     print("Running KNN (tuned)...")
     results['KNN_tuned'] = run_knn(X_tuned, y)
 
-    # KNN (untuned)
-    # print("Running KNN (untuned)...")
-    # results['KNN_untuned'] = run_knn(X_untuned, y)
-
-    # # 决策树
+    # 决策树
     # print("Running Decision Tree...")
     # results['DecisionTree'] = run_decision_tree(X_tuned, y)
 
-    # # K-means
+    # K-means
     # print("Running K-means...")
     # results['KMeans'] = run_kmeans(X_tuned, y)
 
@@ -298,16 +294,16 @@ if __name__ == '__main__':
     results['KG_KNN'] = run_kg_knn(X_kg, y)
 
     # LLM zero-shot
-    # llm_preds = llm_zero_shot_predict(texts, call_llm_func)  # using your API-key
-    llm_preds = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 
-        2, 2, 2, 2, 1, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 
-        1, 2, 0, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 
-        2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 
-        2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 0, 2, 
-        2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 
-        0, 2, 0, 0, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 1, 0, 2, 2, 0, 2, 0, 2, 0, 0, 
-        2, 2, 2, 0, 2, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2, 2, 0, 2, 2, 2, 2, 1, 2, 
-        0, 2, 2, 2, 2]
+    llm_preds = llm_zero_shot_predict(texts, call_llm_func)  # using your API-key
+    # llm_preds = [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 
+        # 2, 2, 2, 2, 1, 2, 2, 2, 2, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 
+        # 1, 2, 0, 2, 2, 2, 0, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2, 0, 0, 1, 1, 2, 2, 2, 
+        # 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 2, 
+        # 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1, 1, 2, 2, 2, 2, 0, 2, 
+        # 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 2, 0, 2, 0, 2, 
+        # 0, 2, 0, 0, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 1, 0, 2, 2, 0, 2, 0, 2, 0, 0, 
+        # 2, 2, 2, 0, 2, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2, 2, 0, 2, 2, 2, 2, 1, 2, 
+        # 0, 2, 2, 2, 2]
     results['LLM_zero_shot'] = {
         'accuracy_mean': accuracy_score(y, llm_preds),
         'accuracy_std': np.std(accuracy_score(y, llm_preds)),
@@ -329,19 +325,19 @@ if __name__ == '__main__':
         }
         for name, res in results.items()
     }).T
-    print("\n=== 统一 5 折交叉验证结果 ===")
+    print("\n==== 统一 5 折交叉验证结果 ====")
     print(df_results)
 
     # ============================================================
     # 12. 统计检验：McNemar 和 Wilcoxon
     # ============================================================
-    # 以本文 KNN 为基准，与其他方法比较
+    # 以 KNN 为基准，与其他方法比较
     baseline = results['KNN_tuned']
     baseline_accs = baseline['accs']
     baseline_true = baseline['all_y_true']
     baseline_pred = baseline['all_y_pred']
 
-    print("\n=== 统计检验(vs. KNN_tuned) ===")
+    print("\n==== 统计检验(vs. KNN_tuned) ====")
     for name, res in results.items():
         if name == 'KNN_tuned':
             continue
@@ -366,7 +362,7 @@ if __name__ == '__main__':
     # ============================================================
     # 13. 置信区间（bootstrap 或 t 分布）
     # ============================================================
-    print("\n=== 95% 置信区间(Accuracy) ===")
+    print("\n==== 95% 置信区间(Accuracy) ====")
     for name, res in results.items():
         accs = res['accs']
         ci = st.t.interval(0.95, len(accs)-1, loc=np.mean(accs), scale=st.sem(accs))
@@ -377,7 +373,7 @@ if __name__ == '__main__':
     # ============================================================
     from sklearn.metrics import confusion_matrix
     cm = confusion_matrix(baseline_true, baseline_pred)
-    print("\n=== KNN_tuned 混淆矩阵 ===")
+    print("\n==== KNN_tuned 混淆矩阵 ====")
     print(cm)
     
     
@@ -393,7 +389,7 @@ LLM zero-shot predictions: [2, 2, 0, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 2, 2,
 2, 2, 2, 0, 2, 2, 0, 2, 2, 2, 0, 2, 0, 0, 0, 2, 2, 0, 2, 2, 2, 2, 1, 2, 
 0, 2, 2, 2, 2]
 
-=== 统一 5 折交叉验证结果 ===
+==== 统一 5 折交叉验证结果 ====
                       Accuracy         Macro-F1      Weighted-F1
 KNN_tuned      0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
 TFIDF_SVM      0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
@@ -402,7 +398,7 @@ BERT_LR        0.6467 ± 0.0646  0.5065 ± 0.0838  0.6257 ± 0.0636
 KG_KNN         0.9494 ± 0.0310  0.9238 ± 0.0483  0.9476 ± 0.0326
 LLM_zero_shot  0.2447 ± 0.0000  0.2280 ± 0.0000  0.1746 ± 0.0000
 
-=== 统计检验(vs. KNN_tuned) ===
+==== 统计检验(vs. KNN_tuned) ====
 TFIDF_SVM: Wilcoxon p = 7.4146124446461e-10
 TFIDF_SVM: McNemar p = 5.760437365503017e-56
 W2V_SVM: Wilcoxon p = 7.179495585616791e-10
@@ -413,7 +409,7 @@ KG_KNN: Wilcoxon p = 2.5508920806132378e-08
 KG_KNN: McNemar p = 8.183490134475067e-15
 LLM_zero_shot: Wilcoxon p = 7.155054709308456e-10
 
-=== 95% 置信区间(Accuracy) ===
+==== 95% 置信区间(Accuracy) ====
 KNN_tuned: 0.8787 [0.8629, 0.8944]
 TFIDF_SVM: 0.6563 [0.6428, 0.6697]
 W2V_SVM: 0.6015 [0.5998, 0.6032]
@@ -421,7 +417,7 @@ BERT_LR: 0.6467 [0.6282, 0.6653]
 KG_KNN: 0.9494 [0.9405, 0.9583]
 LLM_zero_shot: 0.2447 [0.2447, 0.2447]
 
-=== KNN_tuned 混淆矩阵 ===
+==== KNN_tuned 混淆矩阵 ====
 [[ 207   72   21]
  [  33 1016   81]
  [  11   10  429]]
@@ -430,7 +426,7 @@ LLM_zero_shot: 0.2447 [0.2447, 0.2447]
 # ==============================================================
 
 ''' results without conditional simularity component
-=== 统一 5 折交叉验证结果 ===
+==== 统一 5 折交叉验证结果 ====
                       Accuracy         Macro-F1      Weighted-F1
 KNN_tuned      0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
 TFIDF_SVM      0.6563 ± 0.0469  0.4485 ± 0.0862  0.5931 ± 0.0623
@@ -439,7 +435,7 @@ BERT_LR        0.7679 ± 0.0628  0.6791 ± 0.0966  0.7575 ± 0.0680
 KG_KNN         0.9697 ± 0.0305  0.9486 ± 0.0540  0.9677 ± 0.0342
 LLM_zero_shot  0.2447 ± 0.0000  0.2280 ± 0.0000  0.1746 ± 0.0000
 
-=== 统计检验(vs. KNN_tuned) ===
+==== 统计检验(vs. KNN_tuned) ====
 TFIDF_SVM: Wilcoxon p = 7.4146124446461e-10
 TFIDF_SVM: McNemar p = 5.760437365503017e-56
 W2V_SVM: Wilcoxon p = 0.00302700338129744
@@ -450,7 +446,7 @@ KG_KNN: Wilcoxon p = 7.187659197135014e-10
 KG_KNN: McNemar p = 1.3368286301932979e-36
 LLM_zero_shot: Wilcoxon p = 7.155054709308456e-10
 
-=== 95% 置信区间(Accuracy) ===
+==== 95% 置信区间(Accuracy) ====
 KNN_tuned: 0.8787 [0.8655, 0.8919]
 TFIDF_SVM: 0.6563 [0.6428, 0.6697]
 W2V_SVM: 0.8723 [0.8591, 0.8855]
@@ -458,7 +454,7 @@ BERT_LR: 0.7679 [0.7499, 0.7860]
 KG_KNN: 0.9697 [0.9610, 0.9784]
 LLM_zero_shot: 0.2447 [nan, nan]
 
-=== KNN_tuned 混淆矩阵 ===
+==== KNN_tuned 混淆矩阵 ====
 [[ 207   72   21]
  [  33 1016   81]
  [  11   10  429]]
