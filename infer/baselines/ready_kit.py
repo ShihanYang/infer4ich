@@ -201,7 +201,7 @@ def get_kg_embedding(path):
 def call_llm_func(prompt):
     from openai import OpenAI
     client = OpenAI(
-        api_key="sk-*********************",  
+        api_key="sk-fd28225295964cf3a****370f6670010",  # 替换为实际的 API Key
         base_url="https://api.deepseek.com"
     )
     response = client.chat.completions.create(

@@ -311,12 +311,12 @@ if __name__ == '__main__':
     results['KNN_tuned'] = run_knn(X_tuned, y)
 
     # 决策树
-    # print("Running Decision Tree...")
-    # results['DecisionTree'] = run_decision_tree(X_tuned, y)
+    print("Running Decision Tree...")
+    results['DecisionTree'] = run_decision_tree(X_tuned, y)
 
     # K-means
-    # print("Running K-means...")
-    # results['KMeans'] = run_kmeans(X_tuned, y)
+    print("Running K-means...")
+    results['KMeans'] = run_kmeans(X_tuned, y)
 
     # TF-IDF + SVM
     print("Running TF-IDF + SVM...")
@@ -336,7 +336,7 @@ if __name__ == '__main__':
     results['KG_KNN'] = run_kg_knn(X_kg, y)
 
     # LLM zero-shot
-    llm_preds = llm_zero_shot_predict(texts, call_llm_func)  # using your LLM API-key in the call_llm_func function
+    llm_preds = llm_zero_shot_predict(texts, call_llm_func)  
     results['LLM_zero_shot'] = {
         'accuracy_mean': accuracy_score(y, llm_preds),
         'accuracy_std': np.std(accuracy_score(y, llm_preds)),
@@ -460,17 +460,32 @@ LLM_zero_shot: 0.2447 [0.2447, 0.2447]
 
 # ==============================================================
 
-''' results without conditional simularity component
+''' results with conditional simularity component
+LLM zero-shot predictions: [0, 2, 0, 2, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 
+1, 1, 1, 1, 1, 1, 1, 2, 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 2, 1, 0, 0, 2, 1, 
+1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 
+1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 0, 1, 0, 2, 1, 1, 0, 
+0, 0, 1, 0, 2, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 
+0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 
+0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1]
+
 ==== 统一 5 折交叉验证结果 ====
-                      Accuracy         Macro-F1      Weighted-F1
-KNN_tuned      0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
+                        Accuracy         Macro-F1      Weighted-F1
+KNN_tuned        0.8787 ± 0.0460  0.8418 ± 0.0658  0.8754 ± 0.0486
+DecisionTree     0.8026 ± 0.0531  0.7496 ± 0.0760  0.8023 ± 0.0543
+KMeans           0.8723 ± 0.0460  0.8358 ± 0.0681  0.8708 ± 0.0481
 TFIDF_SVM_tuned  0.8022 ± 0.0465  0.7193 ± 0.0688  0.7910 ± 0.0511
-W2V_SVM        0.8723 ± 0.0460  0.8358 ± 0.0681  0.8708 ± 0.0481
-BERT_LR        0.7679 ± 0.0628  0.6791 ± 0.0966  0.7575 ± 0.0680
-KG_KNN         0.9697 ± 0.0305  0.9486 ± 0.0540  0.9677 ± 0.0342
-LLM_zero_shot  0.2447 ± 0.0000  0.2280 ± 0.0000  0.1746 ± 0.0000
+W2V_SVM          0.8723 ± 0.0460  0.8358 ± 0.0681  0.8708 ± 0.0481
+BERT_LR          0.7679 ± 0.0628  0.6791 ± 0.0966  0.7575 ± 0.0680
+KG_KNN           0.9697 ± 0.0305  0.9486 ± 0.0540  0.9677 ± 0.0342
+LLM_zero_shot    0.3989 ± 0.0000  0.3665 ± 0.0000  0.4271 ± 0.0000
 
 ==== 统计检验(vs. KNN_tuned) ====
+DecisionTree: Wilcoxon p = 2.1584336371998357e-09
+DecisionTree: McNemar p = 2.9301585876811386e-25
+KMeans: Wilcoxon p = 0.00302700338129744
+KMeans: McNemar p = 0.0032834609860690426
 TFIDF_SVM_tuned: Wilcoxon p = 4.3912351313468404e-08
 TFIDF_SVM_tuned: McNemar p = 7.343353533200824e-11
 W2V_SVM: Wilcoxon p = 0.00302700338129744
@@ -483,11 +498,13 @@ LLM_zero_shot: Wilcoxon p = 7.155054709308456e-10
 
 ==== 95% 置信区间(Accuracy) ====
 KNN_tuned: 0.8787 [0.8655, 0.8919]
+DecisionTree: 0.8026 [0.7873, 0.8178]
+KMeans: 0.8723 [0.8591, 0.8855]
 TFIDF_SVM_tuned: 0.8022 [0.7889, 0.8155]
 W2V_SVM: 0.8723 [0.8591, 0.8855]
 BERT_LR: 0.7679 [0.7499, 0.7860]
 KG_KNN: 0.9697 [0.9610, 0.9784]
-LLM_zero_shot: 0.2447 [nan, nan]
+LLM_zero_shot: 0.3989 [0.3989, 0.3989]
 
 ==== KNN_tuned 混淆矩阵 ====
 [[ 207   72   21]
